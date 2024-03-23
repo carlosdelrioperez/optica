@@ -32,7 +32,28 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .mr-auto {
+    margin-left: 2%;
+  }
+
+  .nav-link {
+    margin-right: 3%;
+  }
+}
+
+@media (max-width: 576px) {
+  .mr-auto {
+    margin-left: 0;
+  }
+
+  .nav-link {
+    margin-right: 2%;
   }
 }
