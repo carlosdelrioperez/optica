@@ -45,7 +45,7 @@ public class ClienteController {
     // Crear un cliente nuevo
     @PostMapping("/clientes")
     public ResponseEntity<Cliente> crearCliente(@RequestBody Cliente cliente) {
-        Cliente nuevoCliente = clienteService.create(cliente);
+        Cliente nuevoCliente = clienteService.createCliente(cliente);
         return new ResponseEntity<>(nuevoCliente, HttpStatus.CREATED);
     }
 

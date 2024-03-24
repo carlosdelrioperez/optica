@@ -19,9 +19,15 @@ public class ClienteService {
     }
 
     // Guardar un cliente
-    public Cliente create(Cliente cliente) {
-        // Aquí puedes realizar validaciones u operaciones adicionales antes de guardar
-        // el cliente
+    public Cliente createCliente(Cliente cliente) {
+        // Validaciones
+        Cliente existingCliente = clienteRepository.findByEmail(cliente.getEmail());
+
+        // Si existe un cliente con el mismo email
+        if (existingCliente != null) {
+            // COMPLETAR CON MENSAJES DE ERROR
+        }
+
         return clienteRepository.save(cliente);
     }
 
