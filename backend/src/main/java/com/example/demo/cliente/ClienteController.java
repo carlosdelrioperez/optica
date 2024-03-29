@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api")
 public class ClienteController {
 
     private final ClienteService clienteService;
@@ -42,12 +44,12 @@ public class ClienteController {
         }
     }
 
-    // Crear un cliente nuevo
-    @PostMapping("/clientes")
-    public ResponseEntity<Cliente> crearCliente(@RequestBody Cliente cliente) {
-        Cliente nuevoCliente = clienteService.createCliente(cliente);
-        return new ResponseEntity<>(nuevoCliente, HttpStatus.CREATED);
-    }
+    // // Crear un cliente nuevo
+    // @PostMapping("/clientes")
+    // public ResponseEntity<Cliente> crearCliente(@RequestBody Cliente cliente) {
+    // Cliente nuevoCliente = clienteService.createCliente(cliente);
+    // return new ResponseEntity<>(nuevoCliente, HttpStatus.CREATED);
+    // }
 
     // Actualizar un cliente
     @PutMapping("/clientes")

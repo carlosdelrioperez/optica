@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ClienteService {
 
-    private ClienteRepository clienteRepository;
+    private final ClienteRepository clienteRepository;
 
     public ClienteService(ClienteRepository clienteRepository) {
         this.clienteRepository = clienteRepository;
@@ -19,17 +19,16 @@ public class ClienteService {
     }
 
     // Guardar un cliente
-    public Cliente createCliente(Cliente cliente) {
-        // Validaciones
-        Cliente existingCliente = clienteRepository.findByEmail(cliente.getEmail());
+    // public Cliente createCliente(Cliente cliente) {
+    // // Validaciones
+    // Cliente existingCliente = clienteRepository.findByEmail(cliente.getEmail());
 
-        // Si existe un cliente con el mismo email
-        if (existingCliente != null) {
-            // COMPLETAR CON MENSAJES DE ERROR
-        }
-
-        return clienteRepository.save(cliente);
-    }
+    // // Si existe un cliente con el mismo email
+    // if (existingCliente != null) {
+    // // COMPLETAR CON MENSAJES DE ERROR
+    // }
+    // return clienteRepository.save(cliente);
+    // }
 
     // Obtener un cliente por el id
     public Cliente findClienteById(Integer id) {
