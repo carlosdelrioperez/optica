@@ -1,5 +1,7 @@
 package com.example.demo.auth;
 
+import java.util.Optional;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -46,6 +48,10 @@ public class AuthService {
                                 .role(Role.USER)
                                 .build();
 
+                Optional<Cliente> existingCliente = clienteRepository.findByEmail(request.getEmail());
+                if (existingCliente.isPresent()) {
+                        return AuthResponse.builder().build(); // MOSTRAR ERROR
+                }
                 clienteRepository.save(cliente);
 
                 return AuthResponse.builder()

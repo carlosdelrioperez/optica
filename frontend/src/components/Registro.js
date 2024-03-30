@@ -1,25 +1,53 @@
 import React, { useState } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
-const Register = () => {
-    // Estados para los campos del formulario
+const Register = ({ setIsLoggedIn }) => {
     const [nombre, setNombre] = useState('');
     const [apellidos, setApellidos] = useState('');
     const [fechaNacimiento, setFechaNacimiento] = useState('');
     const [telefono, setTelefono] = useState('');
     const [domicilio, setDomicilio] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
-    // Función para manejar el envío del formulario
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        // Aquí puedes agregar la lógica para enviar los datos de registro al servidor
-        console.log('Nombre:', nombre);
-        console.log('Apellidos:', apellidos);
-        console.log('Fecha de Nacimiento:', fechaNacimiento);
-        console.log('Teléfono:', telefono);
-        console.log('Domicilio:', domicilio);
-        console.log('Contraseña:', password);
+
+        const data = {
+            nombre,
+            apellidos,
+            fechaNacimiento,
+            telefono,
+            domicilio,
+            email,
+            password
+        };
+
+        try {
+            const response = await fetch('http://localhost:8080/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al registrar usuario');
+            }
+
+            const responseData = await response.json();
+            const token = responseData.token;
+            console.log('Token de sesión:', token);
+            localStorage.setItem('token', token);
+            setIsLoggedIn(true);
+            // Redirige al usuario a la página de inicio después de un registro exitoso
+            navigate('/');
+        } catch (error) {
+            console.error('Error:', error.message);
+        }
     };
 
     return (
@@ -76,6 +104,17 @@ const Register = () => {
                         placeholder="Ingresa tu domicilio"
                         value={domicilio}
                         onChange={(e) => setDomicilio(e.target.value)}
+                        required
+                    />
+                </Form.Group>
+
+                <Form.Group controlId="formBasicEmail">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                        type="email"
+                        placeholder="Ingresa tu email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         required
                     />
                 </Form.Group>

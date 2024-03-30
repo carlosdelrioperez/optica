@@ -1,19 +1,44 @@
+// Login.js
 import React, { useState } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
+const Login = ({ setIsLoggedIn }) => {
 
-const Login = () => {
-    // Estados para el correo y contraseña
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
-    // Función para manejar el envío del formulario
-    const handleSubmit = (event) => {
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        // Aquí puedes agregar la lógica para enviar los datos de inicio de sesión al servidor
-        console.log('Correo:', email);
-        console.log('Contraseña:', password);
+        const data = {
+            email,
+            password
+        };
+
+        try {
+            const response = await fetch('http://localhost:8080/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al iniciar sesión');
+            }
+
+            const responseData = await response.json();
+            const token = responseData.token;
+            console.log('Token de sesión:', token);
+            localStorage.setItem('token', token);
+            setIsLoggedIn(true);
+            navigate('/');
+        } catch (error) {
+            console.error('Error:', error.message);
+        }
     };
 
     return (
@@ -49,8 +74,9 @@ const Login = () => {
             <p className="mt-3">
                 ¿No tienes una cuenta? <Link to="/registro">Regístrate aquí</Link>
             </p>
-        </Container >
+        </Container>
     );
 };
 
 export default Login;
+

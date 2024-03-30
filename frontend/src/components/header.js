@@ -6,7 +6,11 @@ import { Link } from 'react-router-dom';
 
 
 
-export const Header = () => {
+export const Header = ({ isLoggedIn, setIsLoggedIn }) => {
+    const handleLogout = () => {
+        localStorage.removeItem('token'); // Eliminar el token del almacenamiento local
+        setIsLoggedIn(false); // Actualizar el estado de inicio de sesión
+    };
     return (
         <div>
             <Navbar className="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
@@ -27,14 +31,22 @@ export const Header = () => {
                         </Form>
                     </Nav>
                     <Nav>
-                        <Nav.Link style={{ color: 'white' }}>
-                            <BsCart3 style={{ width: "40px", height: "40px" }} />
-                        </Nav.Link>
-                        <Link to="/login" style={{ color: 'white', textDecoration: 'none' }}>
-                            <IoPersonCircleOutline style={{ width: "50px", height: "50px", position: "relative", top: "4px" }} />
-                        </Link>
+                        {isLoggedIn ? (
+                            <>
+                                <Nav.Link style={{ color: 'white' }}>
+                                    <BsCart3 style={{ width: "40px", height: "40px" }} />
+                                </Nav.Link>
+                                <Link to="/perfil" style={{ color: 'white', textDecoration: 'none' }}>
+                                    <IoPersonCircleOutline style={{ width: "50px", height: "50px", position: "relative", top: "4px" }} />
+                                </Link>
+                                <Nav.Link onClick={handleLogout} style={{ color: 'white', position: "relative", top: "6px" }}>Logout</Nav.Link>
+                            </>
+                        ) : (
+                            <Link to="/login" style={{ color: 'white', textDecoration: 'none' }}>
+                                <IoPersonCircleOutline style={{ width: "50px", height: "50px", position: "relative", top: "4px" }} />
+                            </Link>
+                        )}
                     </Nav>
-
                 </div>
             </Navbar >
         </div >
