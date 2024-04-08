@@ -5,6 +5,8 @@ import Login from './components/login';
 import Register from './components/Registro';
 import { Home } from './components/home/Home';
 import React, { useState } from 'react';
+import Genero from './components/productos/Genero';
+import { SearchResult } from './components/productos/SearchProduct';
 
 function App() {
 
@@ -17,6 +19,8 @@ function App() {
         <Route path='/' exact element={<Home />} />
         <Route path='/login' element={<Login setIsLoggedIn={setIsLoggedIn} />} />
         <Route path='/registro' element={<Register setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path="/genero/:genero" element={<Genero />} />
+        <Route path="/productos/search" element={<SearchResult />} />
       </Routes>
     </Router>
   );

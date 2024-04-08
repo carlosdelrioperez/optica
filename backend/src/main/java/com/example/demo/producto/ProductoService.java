@@ -1,6 +1,8 @@
 package com.example.demo.producto;
 
+import java.text.Normalizer;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -38,9 +40,20 @@ public class ProductoService {
         return productoRepository.findById(id);
     }
 
-    // Encontrar producto por el nombre
-    public List<Producto> findByNombre(String nombre) {
-        return productoRepository.findByNombre(nombre);
+    // Encontrar productos por nombre, marca y/o género
+    public List<Producto> findByNombreMarcaGenero(String searchTerm) {
+        String searchTermNormalized = normalize(searchTerm.toLowerCase());
+        return productoRepository.findAll().stream()
+                .filter(producto -> normalize(producto.getNombre().toLowerCase()).contains(searchTermNormalized) ||
+                        normalize(producto.getMarca().toLowerCase()).contains(searchTermNormalized) ||
+                        normalize(producto.getGenero().name().toLowerCase()).contains(searchTermNormalized) ||
+                        normalize(producto.getColor().toLowerCase()).contains(searchTermNormalized))
+                .collect(Collectors.toList());
+    }
+
+    private String normalize(String input) {
+        return Normalizer.normalize(input, Normalizer.Form.NFD)
+                .replaceAll("\\p{M}", "");
     }
 
     // Encontrar producto por la marca

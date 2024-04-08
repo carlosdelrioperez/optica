@@ -33,9 +33,9 @@ public class ProductoController {
     }
 
     // Encontrar por nombre
-    @GetMapping("/productos/findByNombre")
-    public List<Producto> getProductosByNombre(@RequestParam String nombre) {
-        return productoService.findByNombre(nombre);
+    @GetMapping("/productos/search")
+    public List<Producto> getProductosByNombre(@RequestParam String search) {
+        return productoService.findByNombreMarcaGenero(search);
     }
 
     // Encontrar por nombre

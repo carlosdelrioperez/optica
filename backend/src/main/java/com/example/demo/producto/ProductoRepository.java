@@ -15,4 +15,16 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer> {
 
     List<Producto> findByGenero(Genero genero);
 
+    List<Producto> findByNombreContainingAndMarcaContainingAndGenero(String nombre, String marca, Genero genero);
+
+    List<Producto> findByNombreContainingAndMarcaContaining(String nombre, String marca);
+
+    List<Producto> findByNombreContainingAndGenero(String nombre, Genero genero);
+
+    List<Producto> findByMarcaContainingAndGenero(String marca, Genero genero);
+
+    List<Producto> findByNombreContaining(String nombre);
+
+    List<Producto> findByMarcaContaining(String marca);
+
 }

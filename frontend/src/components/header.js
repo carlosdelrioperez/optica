@@ -1,12 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Navbar, Nav, Form, FormControl } from 'react-bootstrap';
 import { BsCart3 } from "react-icons/bs";
 import { IoPersonCircleOutline } from "react-icons/io5";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
 export const Header = ({ isLoggedIn, setIsLoggedIn }) => {
+    const [searchTerm, setSearchTerm] = useState('');
+    const navigate = useNavigate();
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        navigate(`/productos/search?search=${searchTerm}`);
+    };
+
     const handleLogout = () => {
         localStorage.removeItem('token'); // Eliminar el token del almacenamiento local
         setIsLoggedIn(false); // Actualizar el estado de inicio de sesión
@@ -26,8 +34,15 @@ export const Header = ({ isLoggedIn, setIsLoggedIn }) => {
 
                     </Nav>
                     <Nav>
-                        <Form >
-                            <FormControl type="search" placeholder="Buscar" className="mr-2" aria-label="Search" />
+                        <Form onSubmit={handleSearch}>
+                            <FormControl
+                                type="search"
+                                placeholder="Buscar"
+                                className="mr-2"
+                                aria-label="Search"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
                         </Form>
                     </Nav>
                     <Nav>
