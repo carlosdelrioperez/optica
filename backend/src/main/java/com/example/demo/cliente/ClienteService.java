@@ -1,6 +1,7 @@
 package com.example.demo.cliente;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -31,5 +32,9 @@ public class ClienteService {
 
     public void deleteCliente(Integer id) {
         clienteRepository.deleteById(id);
+    }
+
+    public Optional<Cliente> findByEmail(String email) {
+        return clienteRepository.findByEmail(email);
     }
 }

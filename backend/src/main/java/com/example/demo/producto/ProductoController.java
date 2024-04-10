@@ -1,6 +1,7 @@
 package com.example.demo.producto;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,9 +45,22 @@ public class ProductoController {
         return productoService.findByMarca(marca);
     }
 
+    // Encontrar productos por género
     @GetMapping("/productos/findByGenero")
     public List<Producto> getProductosByGenero(@RequestParam Genero genero) {
         return productoService.findByGenero(genero);
+    }
+
+    // Encontrar todos los colores disponibles
+    @GetMapping("/productos/findColores")
+    public Set<String> getColores() {
+        return productoService.findColores();
+    }
+
+    // Encontrar productos por color
+    @GetMapping("/productos/findByColor")
+    public List<Producto> getProductosByColor(@RequestParam String color) {
+        return productoService.findByColor(color);
     }
 
 }

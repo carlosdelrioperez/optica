@@ -27,4 +27,6 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer> {
 
     List<Producto> findByMarcaContaining(String marca);
 
+    List<Producto> findByColor(String color);
+
 }

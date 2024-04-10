@@ -1,7 +1,9 @@
 package com.example.demo.producto;
 
 import java.text.Normalizer;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -64,6 +66,24 @@ public class ProductoService {
     // Encontrar producto por el género
     public List<Producto> findByGenero(Genero genero) {
         return productoRepository.findByGenero(genero);
+    }
+
+    // Encontrar colores
+    public Set<String> findColores() {
+        List<Producto> productos = productoRepository.findAll();
+        Set<String> colores = new HashSet<>();
+        for (Producto producto : productos) {
+            String color = producto.getColor();
+            if (!color.isEmpty()) {
+                colores.add(color);
+            }
+        }
+        return colores;
+    }
+
+    // Encontrar productos por colores
+    public List<Producto> findByColor(String color) {
+        return productoRepository.findByColor(color);
     }
 
 }

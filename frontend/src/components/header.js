@@ -10,6 +10,7 @@ export const Header = ({ isLoggedIn, setIsLoggedIn }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const navigate = useNavigate();
 
+
     const handleSearch = (e) => {
         e.preventDefault();
         navigate(`/productos/search?search=${searchTerm}`);
@@ -18,6 +19,7 @@ export const Header = ({ isLoggedIn, setIsLoggedIn }) => {
     const handleLogout = () => {
         localStorage.removeItem('token'); // Eliminar el token del almacenamiento local
         setIsLoggedIn(false); // Actualizar el estado de inicio de sesión
+        navigate('/'); //Redirige a la página de inicio
     };
     return (
         <div>

@@ -3,6 +3,7 @@ package com.example.demo.cliente;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,12 @@ public class ClienteController {
     @GetMapping("/clientes")
     public List<Cliente> getClientes() {
         return clienteService.findAllClientes();
+    }
+
+    // Encontrar cliente por email
+    @GetMapping("/clientes/findByEmail")
+    public Optional<Cliente> getClienteByEmail(@RequestParam String email) {
+        return clienteService.findByEmail(email);
     }
 
     // Encontrar un cliente específico

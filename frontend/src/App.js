@@ -7,6 +7,9 @@ import { Home } from './components/home/Home';
 import React, { useState } from 'react';
 import Genero from './components/productos/Genero';
 import { SearchResult } from './components/productos/SearchProduct';
+import { Perfil } from './components/perfil/Perfil';
+import { CambiarPefil } from './components/perfil/CambiarPefil';
+
 
 function App() {
 
@@ -21,6 +24,8 @@ function App() {
         <Route path='/registro' element={<Register setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="/genero/:genero" element={<Genero />} />
         <Route path="/productos/search" element={<SearchResult />} />
+        <Route path='/perfil' element={<Perfil />} />
+        <Route path='/cambiarPefil' element={<CambiarPefil />} />
       </Routes>
     </Router>
   );

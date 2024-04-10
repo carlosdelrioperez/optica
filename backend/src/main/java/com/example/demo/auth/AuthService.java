@@ -46,6 +46,7 @@ public class AuthService {
                                 .telefono(request.getTelefono())
                                 .domicilio(request.getDomicilio())
                                 .role(Role.USER)
+                                .foto(request.getFoto())
                                 .build();
 
                 Optional<Cliente> existingCliente = clienteRepository.findByEmail(request.getEmail());

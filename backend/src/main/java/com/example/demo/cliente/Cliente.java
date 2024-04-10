@@ -39,6 +39,7 @@ public class Cliente implements UserDetails {
     private LocalDate fechaNacimiento;
     private Integer telefono;
     private String domicilio;
+    private String foto;
     @Enumerated(EnumType.STRING)
     Role role;
 

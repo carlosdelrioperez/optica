@@ -10,6 +10,7 @@ const Register = ({ setIsLoggedIn }) => {
     const [domicilio, setDomicilio] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [foto, setFoto] = useState(null);
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
@@ -22,7 +23,8 @@ const Register = ({ setIsLoggedIn }) => {
             telefono,
             domicilio,
             email,
-            password
+            password,
+            foto
         };
 
         try {
@@ -130,10 +132,20 @@ const Register = ({ setIsLoggedIn }) => {
                     />
                 </Form.Group>
 
+                <Form.Group controlId="formBasicAvatar">
+                    <Form.Label>Foto de Perfil</Form.Label>
+                    <Form.Control
+                        type="file"
+                        onChange={(e) => setFoto(e.target.files[0])} // Actualiza el estado con el archivo seleccionado
+                        accept="image/*" // Acepta solo archivos de imagen
+                    />
+                </Form.Group>
+
                 <Button variant="primary" type="submit" style={{ marginTop: "1%" }}>
                     Registrarse
                 </Button>
             </Form>
+            <br></br>
         </Container>
     );
 };

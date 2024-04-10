@@ -20,5 +20,6 @@ public class RegisterRequest {
     LocalDate fechaNacimiento;
     Integer telefono;
     String domicilio;
+    String foto;
 
 }
