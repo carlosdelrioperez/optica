@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,9 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class ClienteController {
 
     private final ClienteService clienteService;
+    private final PasswordEncoder passwordEncoder;
 
-    public ClienteController(ClienteService clienteService) {
+    public ClienteController(ClienteService clienteService, PasswordEncoder passwordEncoder) {
         this.clienteService = clienteService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     // Encontrar todos los clientes
@@ -73,7 +76,7 @@ public class ClienteController {
                     clienteExistente.setEmail((String) valorCampo);
                     break;
                 case "password":
-                    clienteExistente.setPassword((String) valorCampo);
+                    clienteExistente.setPassword((String) passwordEncoder.encode((CharSequence) valorCampo));
                     break;
                 case "fechaNacimiento":
                     String fechaNacimientoStr = (String) valorCampo;

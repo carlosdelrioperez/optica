@@ -9,7 +9,6 @@ const Login = ({ setIsLoggedIn }) => {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
-
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = {
@@ -32,7 +31,6 @@ const Login = ({ setIsLoggedIn }) => {
 
             const responseData = await response.json();
             const token = responseData.token;
-            console.log('Token de sesión:', token);
             localStorage.setItem('token', token);
             setIsLoggedIn(true);
             navigate('/');

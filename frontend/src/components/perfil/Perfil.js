@@ -35,12 +35,12 @@ export const Perfil = () => {
     }, []);
 
     return (
-        <div style={{ display: 'flex', height: '90vh' }}>
+        <div style={{ display: 'flex', height: '100vh' }}>
             <div style={{ flex: '1', borderRight: '1px solid black', padding: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <br />
                 <img src={userInfo && userInfo.foto ? userInfo.foto : "/images/fotoPerfil.webp"} alt="Avatar" style={{ width: '300px', height: '300px', borderRadius: '50%', marginBottom: '10px' }} />
                 <br />
-                <div>
+                <div style={{ textAlign: 'center' }}>
                     <h3>{userInfo ? userInfo.nombre : "Nombre de Usuario"} {userInfo ? userInfo.apellidos : "Apellidos"}</h3>
                 </div>
                 <div style={{ marginTop: '100px' }}>

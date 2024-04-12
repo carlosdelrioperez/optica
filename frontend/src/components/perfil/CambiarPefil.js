@@ -5,7 +5,6 @@ import { IoIosArrowForward } from "react-icons/io";
 import { Container, Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
-
 export const CambiarPefil = () => {
     const [userInfo, setUserInfo] = useState(null);
     const [nombre, setNombre] = useState('');
@@ -18,44 +17,10 @@ export const CambiarPefil = () => {
     const [foto, setFoto] = useState(null);
     const navigate = useNavigate();
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-
-        const data = {
-            nombre,
-            apellidos,
-            fechaNacimiento,
-            telefono,
-            domicilio,
-            email,
-            password,
-            foto
-        };
-
-        try {
-            const response = await fetch('http://localhost:8080/auth/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-
-            if (!response.ok) {
-                throw new Error('Error al registrar usuario');
-            }
-
-            // Redirige al usuario a la página de inicio después de un registro exitoso
-            navigate('/');
-        } catch (error) {
-            console.error('Error:', error.message);
-        }
-    };
+    // Obtener el token de sesión del localStorage
+    const token = localStorage.getItem('token');
 
     useEffect(() => {
-        // Obtener el token de sesión del localStorage
-        const token = localStorage.getItem('token');
-
         if (token) {
             // Decodificar el token para obtener el correo electrónico del usuario
             const decodedToken = jwtDecode(token);
@@ -72,12 +37,54 @@ export const CambiarPefil = () => {
                 .then(data => {
                     console.log(data); // Muestra los datos del usuario en la consola
                     setUserInfo(data); // Establece los datos del usuario en el estado
+                    // Establece los valores iniciales del formulario con los datos del usuario
+                    setNombre(data.nombre);
+                    setApellidos(data.apellidos);
+                    setFechaNacimiento(data.fechaNacimiento);
+                    setTelefono(data.telefono);
+                    setDomicilio(data.domicilio);
+                    setEmail(data.email);
                 })
                 .catch(error => {
                     console.error('Error fetching user data:', error);
                 });
         }
-    }, []);
+    }, [token]);
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        const data = {
+            nombre,
+            apellidos,
+            fechaNacimiento,
+            telefono,
+            domicilio,
+            email,
+            password,
+            foto
+        };
+
+        try {
+            const response = await fetch(`http://localhost:8080/api/clientes?id=${userInfo.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al registrar usuario');
+            }
+
+            // Redirige al usuario a la página de inicio después de un registro exitoso
+            navigate('/perfil');
+        } catch (error) {
+            console.error('Error:', error.message);
+        }
+    };
 
     return (
         <div style={{ display: 'flex', height: '100vh' }}>
@@ -85,7 +92,7 @@ export const CambiarPefil = () => {
                 <br />
                 <img src={userInfo && userInfo.foto ? userInfo.foto : "/images/fotoPerfil.webp"} alt="Avatar" style={{ width: '300px', height: '300px', borderRadius: '50%', marginBottom: '10px' }} />
                 <br />
-                <div>
+                <div style={{ textAlign: 'center' }}>
                     <h3>{userInfo ? userInfo.nombre : "Nombre de Usuario"} {userInfo ? userInfo.apellidos : "Apellidos"}</h3>
                 </div>
                 <div style={{ marginTop: '100px' }}>

@@ -42,7 +42,6 @@ const Register = ({ setIsLoggedIn }) => {
 
             const responseData = await response.json();
             const token = responseData.token;
-            console.log('Token de sesión:', token);
             localStorage.setItem('token', token);
             setIsLoggedIn(true);
             // Redirige al usuario a la página de inicio después de un registro exitoso
