@@ -9,6 +9,7 @@ import Genero from './components/productos/Genero';
 import { SearchResult } from './components/productos/SearchProduct';
 import { Perfil } from './components/perfil/Perfil';
 import { CambiarPefil } from './components/perfil/CambiarPefil';
+import { Footer } from './components/Footer';
 
 
 function App() {
@@ -27,6 +28,16 @@ function App() {
         <Route path='/perfil' element={<Perfil />} />
         <Route path='/cambiarPefil' element={<CambiarPefil />} />
       </Routes>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <Footer />
     </Router>
   );
 }
