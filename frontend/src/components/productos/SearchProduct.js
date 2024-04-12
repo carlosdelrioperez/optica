@@ -10,6 +10,7 @@ export const SearchResult = () => {
     const [sortOption, setSortOption] = useState('');
     const [colorOptions, setColorOptions] = useState([]);
     const [selectedColor, setSelectedColor] = useState('');
+    const [noResults, setNoResults] = useState(false);
 
     useEffect(() => {
         fetch(`http://localhost:8080/api/productos/search?search=${searchTerm}`)
@@ -17,6 +18,7 @@ export const SearchResult = () => {
             .then(data => {
                 setOriginalResults(data); // Almacenar los resultados originales
                 setSearchResults(data);
+                setNoResults(data.length === 0); // Verificar si no se encontraron resultados
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
@@ -41,9 +43,11 @@ export const SearchResult = () => {
             // Si se selecciona un color, filtrar los resultados por ese color de la copia de respaldo
             const filteredResults = originalResults.filter(producto => producto.color === selectedColor);
             setSearchResults(filteredResults);
+            setNoResults(filteredResults.length === 0); // Verificar si no se encontraron resultados después del filtrado
         } else {
             // Si no se selecciona ningún color, restaurar los resultados originales
             setSearchResults(originalResults);
+            setNoResults(originalResults.length === 0); // Verificar si no se encontraron resultados después del filtrado
         }
     };
 
@@ -77,6 +81,18 @@ export const SearchResult = () => {
                     <option key={color} value={color}>{color}</option>
                 ))}
             </select>
+
+            {noResults && (
+                <div>
+                    <br></br>
+                    <h5>No se encontraron productos.</h5>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                </div>
+            )}
 
             <div className="row">
                 {sortedResults().map(producto => (
