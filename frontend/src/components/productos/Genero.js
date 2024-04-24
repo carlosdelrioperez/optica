@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function Genero() {
     const { genero } = useParams();
@@ -125,18 +126,20 @@ function Genero() {
                 {productos.map(producto => (
                     <div key={producto.id} className="col-md-4 mb-4">
                         <br />
-                        <div className="card">
-                            <img src={producto.foto} className="card-img-top" alt={producto.nombre} />
-                            <div className="card-body">
-                                <h5 className="card-title">{producto.nombre}</h5>
-                                <p className="card-text">Marca: {producto.marca}</p>
-                                <p className="card-text">Precio: {producto.precio}€</p>
+                        <Link to={`/producto/${producto.id}`} style={{ textDecoration: 'none' }}>
+                            <div className="card">
+                                <img src={producto.foto} className="card-img-top" alt={producto.nombre} />
+                                <div className="card-body">
+                                    <h5 className="card-title">{producto.nombre}</h5>
+                                    <p className="card-text">Marca: {producto.marca}</p>
+                                    <p className="card-text">Precio: {producto.precio}€</p>
+                                </div>
                             </div>
-                        </div>
+                        </Link>
                     </div>
                 ))}
             </div>
-        </div>
+        </div >
     );
 }
 

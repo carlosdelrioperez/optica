@@ -10,6 +10,7 @@ import { SearchResult } from './components/productos/SearchProduct';
 import { Perfil } from './components/perfil/Perfil';
 import { CambiarPefil } from './components/perfil/CambiarPefil';
 import { Footer } from './components/Footer';
+import { Producto } from './components/productos/Producto';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         <Route path="/productos/search" element={<SearchResult />} />
         <Route path='/perfil' element={<Perfil />} />
         <Route path='/cambiarPefil' element={<CambiarPefil />} />
+        <Route path='/producto/:id' element={<Producto />} />
       </Routes>
       <br></br>
       <br></br>

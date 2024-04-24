@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
 
 export const SearchResult = () => {
     const location = useLocation();
@@ -98,14 +100,16 @@ export const SearchResult = () => {
                 {sortedResults().map(producto => (
                     <div key={producto.id} className="col-md-4 mb-4">
                         <br />
-                        <div className="card">
-                            <img src={producto.foto} className="card-img-top" alt={producto.nombre} />
-                            <div className="card-body">
-                                <h5 className="card-text">{producto.nombre}</h5>
-                                <p className="card-text">Marca: {producto.marca}</p>
-                                <p className="card-text" style={{ fontWeight: 'bold', textAlign: 'right' }}>{producto.precio}€</p>
+                        <Link to={`/producto/${producto.id}`} style={{ textDecoration: 'none' }}>
+                            <div className="card">
+                                <img src={producto.foto} className="card-img-top" alt={producto.nombre} />
+                                <div className="card-body">
+                                    <h5 className="card-text">{producto.nombre}</h5>
+                                    <p className="card-text">Marca: {producto.marca}</p>
+                                    <p className="card-text" style={{ fontWeight: 'bold', textAlign: 'right' }}>{producto.precio}€</p>
+                                </div>
                             </div>
-                        </div>
+                        </Link>
                     </div>
                 ))}
             </div>
