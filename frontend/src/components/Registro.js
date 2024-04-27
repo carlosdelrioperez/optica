@@ -12,9 +12,20 @@ const Register = ({ setIsLoggedIn }) => {
     const [password, setPassword] = useState('');
     const [foto, setFoto] = useState(null);
     const navigate = useNavigate();
+    const [telefonoTouched, setTelefonoTouched] = useState(false);
+
+    const validatePhoneNumber = (phoneNumber) => {
+        const phoneRegex = /^[0-9]{9}$/;
+        return phoneRegex.test(phoneNumber);
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        if (!validatePhoneNumber(telefono)) {
+            console.error('El número de teléfono no tiene el formato correcto (666666666).');
+            return;
+        }
 
         const data = {
             nombre,
@@ -26,6 +37,7 @@ const Register = ({ setIsLoggedIn }) => {
             password,
             foto
         };
+        console.log(data);
 
         try {
             const response = await fetch('http://localhost:8080/auth/register', {
@@ -44,11 +56,14 @@ const Register = ({ setIsLoggedIn }) => {
             const token = responseData.token;
             localStorage.setItem('token', token);
             setIsLoggedIn(true);
-            // Redirige al usuario a la página de inicio después de un registro exitoso
             navigate('/');
         } catch (error) {
             console.error('Error:', error.message);
         }
+    };
+
+    const handleTelefonoBlur = () => {
+        setTelefonoTouched(true);
     };
 
     return (
@@ -94,9 +109,16 @@ const Register = ({ setIsLoggedIn }) => {
                         placeholder="Ingresa tu teléfono"
                         value={telefono}
                         onChange={(e) => setTelefono(e.target.value)}
+                        onBlur={handleTelefonoBlur} // Manejar el evento onBlur para rastrear la interacción del usuario
                         required
                     />
+                    {telefonoTouched && !validatePhoneNumber(telefono) && ( // Mostrar el mensaje de error solo si el usuario ha interactuado con el campo de teléfono
+                        <Form.Text className="text-danger">
+                            El número de teléfono no tiene un formato correcto
+                        </Form.Text>
+                    )}
                 </Form.Group>
+
 
                 <Form.Group controlId="formBasicDomicilio">
                     <Form.Label>Domicilio</Form.Label>
@@ -135,8 +157,8 @@ const Register = ({ setIsLoggedIn }) => {
                     <Form.Label>Foto de Perfil</Form.Label>
                     <Form.Control
                         type="file"
-                        onChange={(e) => setFoto(e.target.files[0])} // Actualiza el estado con el archivo seleccionado
-                        accept="image/*" // Acepta solo archivos de imagen
+                        onChange={(e) => setFoto(e.target.files[0])}
+                        accept="image/*"
                     />
                 </Form.Group>
 

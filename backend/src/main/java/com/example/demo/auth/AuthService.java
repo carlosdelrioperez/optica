@@ -51,7 +51,7 @@ public class AuthService {
 
                 Optional<Cliente> existingCliente = clienteRepository.findByEmail(request.getEmail());
                 if (existingCliente.isPresent()) {
-                        return AuthResponse.builder().build(); // MOSTRAR ERROR
+                        return AuthResponse.builder().build();
                 }
                 clienteRepository.save(cliente);
 

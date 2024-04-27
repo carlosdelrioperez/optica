@@ -54,13 +54,13 @@ export const Header = ({ isLoggedIn, setIsLoggedIn }) => {
                                     <BsCart3 style={{ width: "40px", height: "40px" }} />
                                 </Nav.Link>
                                 <Link to="/perfil" style={{ color: 'white', textDecoration: 'none' }}>
-                                    <IoPersonCircleOutline style={{ width: "50px", height: "50px", position: "relative", top: "4px" }} />
+                                    <IoPersonCircleOutline style={{ width: "50px", height: "50px", position: "relative" }} />
                                 </Link>
                                 <Nav.Link onClick={handleLogout} style={{ color: 'white', position: "relative", top: "6px" }}>Logout</Nav.Link>
                             </>
                         ) : (
                             <Link to="/login" style={{ color: 'white', textDecoration: 'none' }}>
-                                <IoPersonCircleOutline style={{ width: "50px", height: "50px", position: "relative", top: "4px" }} />
+                                <IoPersonCircleOutline style={{ width: "50px", height: "50px", position: "relative" }} />
                             </Link>
                         )}
                     </Nav>
