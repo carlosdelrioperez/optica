@@ -1,31 +1,34 @@
 package com.example.demo.producto;
 
 import java.text.Normalizer;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+
+import com.example.demo.color.ColorRepository;
 
 @Service
 public class ProductoService {
 
     private final ProductoRepository productoRepository;
+    private final ColorRepository colorRepository;
 
-    public ProductoService(ProductoRepository productoRepository) {
+    public ProductoService(ProductoRepository productoRepository, ColorRepository colorRepository) {
         this.productoRepository = productoRepository;
+        this.colorRepository = colorRepository;
     }
 
     // Crear producto
-    public Producto create(String nombre, Integer precio, String foto, String marca, String color, Genero genero,
+    public Producto create(String nombre, Integer precio, String foto, String marca, Genero genero,
             String descripcion) {
         Producto producto = Producto.builder()
                 .nombre(nombre)
                 .precio(precio)
                 .foto(foto)
                 .marca(marca)
-                .color(color)
                 .genero(genero)
                 .descripcion(descripcion)
                 .build();
@@ -38,7 +41,7 @@ public class ProductoService {
     }
 
     // Encontrar producto por id
-    public List<Producto> findById(Long id) {
+    public Optional<Producto> findById(Long id) {
         return productoRepository.findById(id);
     }
 
@@ -48,8 +51,7 @@ public class ProductoService {
         return productoRepository.findAll().stream()
                 .filter(producto -> normalize(producto.getNombre().toLowerCase()).contains(searchTermNormalized) ||
                         normalize(producto.getMarca().toLowerCase()).contains(searchTermNormalized) ||
-                        normalize(producto.getGenero().name().toLowerCase()).contains(searchTermNormalized) ||
-                        normalize(producto.getColor().toLowerCase()).contains(searchTermNormalized))
+                        normalize(producto.getGenero().name().toLowerCase()).contains(searchTermNormalized))
                 .collect(Collectors.toList());
     }
 
@@ -68,22 +70,16 @@ public class ProductoService {
         return productoRepository.findByGenero(genero);
     }
 
-    // Encontrar colores
-    public Set<String> findColores() {
-        List<Producto> productos = productoRepository.findAll();
-        Set<String> colores = new HashSet<>();
-        for (Producto producto : productos) {
-            String color = producto.getColor();
-            if (!color.isEmpty()) {
-                colores.add(color);
-            }
-        }
-        return colores;
-    }
-
     // Encontrar productos por colores
     public List<Producto> findByColor(String color) {
-        return productoRepository.findByColor(color);
+        List<Long> productoIds = colorRepository.findProductoIdsByColor(color);
+        List<Producto> productosEncontrados = new ArrayList<>();
+        for (Long productoId : productoIds) {
+            Optional<Producto> productoOptional = productoRepository.findById(productoId);
+            productoOptional.ifPresent(productosEncontrados::add);
+        }
+
+        return productosEncontrados;
     }
 
 }

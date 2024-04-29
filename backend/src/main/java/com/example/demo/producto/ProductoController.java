@@ -1,6 +1,7 @@
 package com.example.demo.producto;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.color.ColorService;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -16,16 +20,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class ProductoController {
 
     private final ProductoService productoService;
+    private final ColorService colorService;
 
-    public ProductoController(ProductoService productoService) {
+    public ProductoController(ProductoService productoService, ColorService colorService) {
         this.productoService = productoService;
+        this.colorService = colorService;
     }
 
     // Crear producto
     @PostMapping("/producto")
     public Producto createProducto(@RequestBody ProductoRequest request) {
         return productoService.create(request.getNombre(), request.getPrecio(), request.getFoto(),
-                request.getMarca(), request.getColor(), request.getGenero(), request.getDescripcion());
+                request.getMarca(), request.getGenero(), request.getDescripcion());
     }
 
     // Encontrar todos los clientes
@@ -36,7 +42,7 @@ public class ProductoController {
 
     // Encontrar todos los clientes
     @GetMapping("/productos/{id}")
-    public List<Producto> getProductoById(@PathVariable Long id) {
+    public Optional<Producto> getProductoById(@PathVariable Long id) {
         return productoService.findById(id);
     }
 
@@ -61,7 +67,7 @@ public class ProductoController {
     // Encontrar todos los colores disponibles
     @GetMapping("/productos/findColores")
     public Set<String> getColores() {
-        return productoService.findColores();
+        return colorService.findColores();
     }
 
     // Encontrar productos por color

@@ -8,6 +8,7 @@ function Genero() {
     const [sortOption, setSortOption] = useState('');
     const [colorOptions, setColorOptions] = useState([]);
     const [selectedColor, setSelectedColor] = useState('');
+    const [noResults, setNoResults] = useState(false);
 
     const formatGenero = (genero) => {
         switch (genero) {
@@ -44,6 +45,7 @@ function Genero() {
             .then(response => response.json())
             .then(data => {
                 setProductos(data);
+                setNoResults(data.length === 0); // Verificar si no se encontraron resultados
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
@@ -79,12 +81,14 @@ function Genero() {
         if (selectedColor) {
             const filteredResults = productos.filter(producto => producto.color === selectedColor);
             setProductos(filteredResults);
+            setNoResults(filteredResults.length === 0); // Verificar si no se encontraron resultados después del filtrado
         } else {
             // Si no se selecciona ningún color, restaurar los productos originales
             fetch(`http://localhost:8080/api/productos/findByGenero?genero=${generoQuery}`)
                 .then(response => response.json())
                 .then(data => {
                     setProductos(data);
+                    setNoResults(data.length === 0); // Verificar si no se encontraron resultados después de restaurar
                 })
                 .catch(error => {
                     console.error('Error fetching data:', error);
@@ -121,6 +125,18 @@ function Genero() {
                     <option key={color} value={color}>{color}</option>
                 ))}
             </select>
+
+            {noResults && (
+                <div>
+                    <br></br>
+                    <h5>No se encontraron productos.</h5>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                </div>
+            )}
 
             <div className="row">
                 {productos.map(producto => (

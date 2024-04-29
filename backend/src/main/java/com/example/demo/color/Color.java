@@ -1,9 +1,13 @@
-package com.example.demo.producto;
+package com.example.demo.color;
+
+import com.example.demo.producto.Producto;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,18 +19,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "productos")
-public class Producto {
-
+@Table(name = "colores")
+public class Color {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    private String nombre;
-    private Integer precio;
-    private String foto;
-    private String marca;
-    private Genero genero;
-    private String descripcion;
-    private Integer stock;
+    private String color;
+
+    @ManyToOne
+    @JoinColumn(name = "producto_id")
+    private Producto producto;
 }

@@ -15,7 +15,6 @@ public class ProductoRequest {
     private Integer precio;
     private String foto;
     private String marca;
-    private String color;
     private Genero genero;
     private String descripcion;
 
