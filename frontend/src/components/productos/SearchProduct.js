@@ -42,10 +42,15 @@ export const SearchResult = () => {
         setSelectedColor(selectedColor);
 
         if (selectedColor) {
-            // Si se selecciona un color, filtrar los resultados por ese color de la copia de respaldo
-            const filteredResults = originalResults.filter(producto => producto.color === selectedColor);
-            setSearchResults(filteredResults);
-            setNoResults(filteredResults.length === 0); // Verificar si no se encontraron resultados después del filtrado
+            fetch(`http://localhost:8080/api/productos/findByColor?color=${selectedColor}`)
+                .then(response => response.json())
+                .then(data => {
+                    setSearchResults(data);
+                    setNoResults(data.length === 0); // Verificar si no se encontraron resultados después del filtrado
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
         } else {
             // Si no se selecciona ningún color, restaurar los resultados originales
             setSearchResults(originalResults);

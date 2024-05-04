@@ -79,9 +79,15 @@ function Genero() {
         setSelectedColor(selectedColor);
 
         if (selectedColor) {
-            const filteredResults = productos.filter(producto => producto.color === selectedColor);
-            setProductos(filteredResults);
-            setNoResults(filteredResults.length === 0); // Verificar si no se encontraron resultados después del filtrado
+            fetch(`http://localhost:8080/api/productos/findByColor?color=${selectedColor}`)
+                .then(response => response.json())
+                .then(data => {
+                    setProductos(data);
+                    setNoResults(data.length === 0); // Verificar si no se encontraron resultados después del filtrado
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
         } else {
             // Si no se selecciona ningún color, restaurar los productos originales
             fetch(`http://localhost:8080/api/productos/findByGenero?genero=${generoQuery}`)
