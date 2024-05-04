@@ -32,4 +32,12 @@ public class ColorService {
                 .collect(Collectors.toSet());
     }
 
+    public List<String> findColoresByProducto(Integer productoId) {
+        List<Color> colores = colorRepository.findByProductoId(productoId);
+        List<String> colorNames = colores.stream()
+                .map(Color::getColor)
+                .collect(Collectors.toList());
+        return colorNames;
+    }
+
 }

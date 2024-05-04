@@ -20,4 +20,5 @@ public class ColorController {
     public Color createProducto(@RequestBody ColorRequest request) {
         return colorService.create(request.getColor(), request.getProducto());
     }
+
 }

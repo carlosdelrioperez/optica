@@ -76,4 +76,10 @@ public class ProductoController {
         return productoService.findByColor(color);
     }
 
+    // Encontrar colores de un producto
+    @GetMapping("/productos/{id}/colores")
+    public List<String> findColoresByProducto(@PathVariable Integer id) {
+        return colorService.findColoresByProducto(id);
+    }
+
 }

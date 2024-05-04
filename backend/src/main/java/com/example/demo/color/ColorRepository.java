@@ -15,4 +15,6 @@ public interface ColorRepository extends JpaRepository<Color, Integer> {
     @Query("SELECT c.producto.id FROM Color c WHERE c.color = :color")
     List<Long> findProductoIdsByColor(@Param("color") String color);
 
+    List<Color> findByProductoId(Integer productoId);
+
 }

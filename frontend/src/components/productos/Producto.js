@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 export const Producto = () => {
     const [productInfo, setProductoInfo] = useState(null);
     const { id } = useParams();
+    const [colores, setColores] = useState(null);
 
     useEffect(() => {
         fetch(`http://localhost:8080/api/productos/${id}`, {
@@ -11,8 +12,18 @@ export const Producto = () => {
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 setProductoInfo(data);
+            })
+            .catch(error => {
+                console.error('Error fetching user data:', error);
+            });
+        fetch(`http://localhost:8080/api/productos/${id}/colores`, {
+            method: 'GET'
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                setColores(data)
             })
             .catch(error => {
                 console.error('Error fetching user data:', error);
@@ -38,6 +49,11 @@ export const Producto = () => {
         )
     }
 
+    const handleColorChange = (selectedColor) => {
+        // Aquí puedes hacer algo con el color seleccionado, como mostrar información adicional
+        console.log("Color seleccionado:", selectedColor);
+    }
+
     return (
         <div className="container-fluid">
             <div className="row">
@@ -51,7 +67,16 @@ export const Producto = () => {
                         <div className="card-body">
                             <h5 className="card-title">Detalles</h5>
                             <p className="card-text">{productInfo.descripcion}</p>
-                            <p className="card-text">{productInfo.color}</p>
+                            {colores && (
+                                <div>
+                                    <select id="colores" className="form-select" onChange={(e) => handleColorChange(e.target.value)}>
+                                        <option value="">Selecciona un color</option>
+                                        {colores.map((color, index) => (
+                                            <option key={index} value={color}>{color}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            )}
                         </div>
                     </div>
                     <div style={{ marginTop: '20px' }}>
