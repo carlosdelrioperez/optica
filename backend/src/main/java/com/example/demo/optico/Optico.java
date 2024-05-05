@@ -1,16 +1,34 @@
 package com.example.demo.optico;
 
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.example.demo.cliente.Role;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "opticos")
-public class Optico {
+public class Optico implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,121 +40,40 @@ public class Optico {
     private String password;
     private LocalDate fechaNacimiento;
     private Integer telefono;
+    private String domicilio;
+    private String foto;
     private Integer colegiado;
+    @Enumerated(EnumType.STRING)
+    Role role;
 
-    public Optico() {
-
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
-    public Optico(Long id,
-            String nombre,
-            String apellidos,
-            String email,
-            String password,
-            LocalDate fechaNacimiento,
-            Integer telefono,
-            Integer colegiado) {
-        this.id = id;
-        this.nombre = nombre;
-        this.apellidos = apellidos;
-        this.email = email;
-        this.password = password;
-        this.fechaNacimiento = fechaNacimiento;
-        this.telefono = telefono;
-        this.colegiado = colegiado;
+    @Override
+    public String getUsername() {
+        return email;
     }
 
-    public Optico(String nombre,
-            String apellidos,
-            String email,
-            String password,
-            LocalDate fechaNacimiento,
-            Integer telefono,
-            Integer colegiado) {
-        this.nombre = nombre;
-        this.apellidos = apellidos;
-        this.email = email;
-        this.password = password;
-        this.fechaNacimiento = fechaNacimiento;
-        this.telefono = telefono;
-        this.colegiado = colegiado;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public Long getId() {
-        return this.id;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
-    public String getNombre() {
-        return this.nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellidos() {
-        return this.apellidos;
-    }
-
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
-    }
-
-    public String getEmail() {
-        return this.email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return this.password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public LocalDate getFechaNacimiento() {
-        return this.fechaNacimiento;
-    }
-
-    public void setFechaNacimiento(LocalDate fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
-    }
-
-    public Integer getTelefono() {
-        return this.telefono;
-    }
-
-    public void setTelefono(Integer telefono) {
-        this.telefono = telefono;
-    }
-
-    public Integer getColegiado() {
-        return this.colegiado;
-    }
-
-    public void setColegiado(Integer colegiado) {
-        this.colegiado = colegiado;
-    }
-
-    public String toString() {
-        return "Optico{" +
-                "id=" + id +
-                ", nombre ='" + nombre + '\'' +
-                ", apellidos ='" + apellidos + '\'' +
-                ", email ='" + email + '\'' +
-                ", password ='" + password + '\'' +
-                ", fechaNacimiento ='" + fechaNacimiento +
-                ", telefono ='" + telefono +
-                ", colegiado ='" + colegiado + '\'' +
-                '}';
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
 }
