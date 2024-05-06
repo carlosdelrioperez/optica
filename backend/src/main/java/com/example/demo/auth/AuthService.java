@@ -38,11 +38,8 @@ public class AuthService {
         }
 
         public AuthResponse loginOptico(LoginRequest request) {
-                System.out.println("Servicio");
                 authenticationManager.authenticate(
                                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-                System.out.println(authenticationManager.authenticate(
-                                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())));
                 UserDetails optico = opticoRepository.findByEmail(request.getEmail()).orElseThrow();
                 String token = jwtService.getToken(optico);
                 return AuthResponse.builder()

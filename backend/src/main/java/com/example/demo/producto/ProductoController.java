@@ -34,13 +34,13 @@ public class ProductoController {
                 request.getMarca(), request.getGenero(), request.getDescripcion());
     }
 
-    // Encontrar todos los clientes
+    // Encontrar todos los productos
     @GetMapping("/productos")
     public List<Producto> getProductos() {
         return productoService.findAllProductos();
     }
 
-    // Encontrar todos los clientes
+    // Encontrar todos los productos
     @GetMapping("/productos/{id}")
     public Optional<Producto> getProductoById(@PathVariable Long id) {
         return productoService.findById(id);

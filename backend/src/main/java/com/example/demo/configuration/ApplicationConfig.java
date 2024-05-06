@@ -1,5 +1,7 @@
 package com.example.demo.configuration;
 
+import java.util.Optional;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,13 +17,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import lombok.RequiredArgsConstructor;
 
+import com.example.demo.cliente.Cliente;
 import com.example.demo.cliente.ClienteRepository;
+import com.example.demo.optico.Optico;
+import com.example.demo.optico.OpticoRepository;
 
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
     private final ClienteRepository clienteRepository;
+    private final OpticoRepository opticoRepository;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
@@ -43,8 +49,17 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailService() {
-        return email -> clienteRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("Email not found"));
+        return email -> {
+            Optional<Cliente> cliente = clienteRepository.findByEmail(email);
+            if (cliente.isPresent()) {
+                return cliente.get();
+            }
+            Optional<Optico> optico = opticoRepository.findByEmail(email);
+            if (optico.isPresent()) {
+                return optico.get();
+            }
+            throw new UsernameNotFoundException("Email not found");
+        };
     }
 
     @Bean
