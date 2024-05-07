@@ -1,8 +1,8 @@
 import './App.css';
 import { Header } from './components/header';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './components/login';
-import Register from './components/Registro';
+import Login from './components/auth/login';
+import Register from './components/auth/Registro';
 import { Home } from './components/home/Home';
 import React, { useState } from 'react';
 import Genero from './components/productos/Genero';
@@ -11,6 +11,8 @@ import { Perfil } from './components/perfil/Perfil';
 import { CambiarPefil } from './components/perfil/CambiarPefil';
 import { Footer } from './components/Footer';
 import { Producto } from './components/productos/Producto';
+import { PerfilOptico } from './components/perfil/PerfilOptico';
+import { OpticoNuevo } from './components/perfil/OpticoNuevo';
 
 
 function App() {
@@ -29,6 +31,8 @@ function App() {
         <Route path='/perfil' element={<Perfil />} />
         <Route path='/cambiarPefil' element={<CambiarPefil />} />
         <Route path='/producto/:id' element={<Producto />} />
+        <Route path='/perfilOptico' element={<PerfilOptico />} />
+        <Route path='/opticoNuevo' element={<OpticoNuevo setIsLoggedIn={setIsLoggedIn} />} />
       </Routes>
       <br></br>
       <br></br>

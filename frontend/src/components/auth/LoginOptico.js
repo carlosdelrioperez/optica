@@ -1,15 +1,14 @@
-// Login.js
 import React, { useState } from 'react';
-import { Container, Form, Button } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Col, Form, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
-const Login = ({ setIsLoggedIn }) => {
+const LoginOptico = ({ setIsLoggedIn }) => {
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmailOptico] = useState('');
+    const [password, setPasswordOptico] = useState('');
     const navigate = useNavigate();
 
-    const handleSubmit = async (event) => {
+    const handleSubmitOptico = async (event) => {
         event.preventDefault();
         const data = {
             email,
@@ -17,7 +16,7 @@ const Login = ({ setIsLoggedIn }) => {
         };
 
         try {
-            const response = await fetch('http://localhost:8080/auth/login', {
+            const response = await fetch('http://localhost:8080/auth/loginOptico', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -40,41 +39,37 @@ const Login = ({ setIsLoggedIn }) => {
     };
 
     return (
-        <Container>
-            <h1 className="mt-5 mb-4">Iniciar sesión</h1>
-            <Form onSubmit={handleSubmit}>
-                <Form.Group controlId="formBasicEmail">
+        <Col>
+            <h1 className="mt-5 mb-4">Iniciar sesión como óptico</h1>
+            <Form onSubmit={handleSubmitOptico}>
+                <Form.Group controlId="formBasicEmailOptico">
                     <Form.Label>Correo electrónico</Form.Label>
                     <Form.Control
                         type="email"
                         placeholder="Ingresa tu correo electrónico"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) => setEmailOptico(e.target.value)}
                         required
                     />
                 </Form.Group>
-
-                <Form.Group controlId="formBasicPassword">
+                <Form.Group controlId="formBasicPasswordOptico">
                     <Form.Label>Contraseña</Form.Label>
                     <Form.Control
                         type="password"
                         placeholder="Contraseña"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => setPasswordOptico(e.target.value)}
                         required
                     />
                 </Form.Group>
-
-                <Button variant="primary" type="submit" style={{ marginTop: "1%" }}>
+                <br></br>
+                <Button variant="primary" type="submit">
                     Iniciar sesión
                 </Button>
             </Form>
-            <p className="mt-3">
-                ¿No tienes una cuenta? <Link to="/registro">Regístrate aquí</Link>
-            </p>
-        </Container>
+        </Col>
+
     );
 };
 
-export default Login;
-
+export default LoginOptico;

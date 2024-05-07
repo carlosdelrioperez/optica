@@ -9,6 +9,9 @@ import java.util.function.Function;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.cliente.Cliente;
+import com.example.demo.optico.Optico;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -21,7 +24,21 @@ public class JwtService {
     private static final String SECRET_KEY = "586E3272357538782F413F4428472B4B6250655368566B597033733676397924";
 
     public String getToken(UserDetails user) {
-        return getToken(new HashMap<>(), user);
+        String role = getRoleFromUser(user);
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role", role);
+
+        return getToken(claims, user);
+    }
+
+    private String getRoleFromUser(UserDetails user) {
+        if (user instanceof Cliente) {
+            return "USER";
+        } else if (user instanceof Optico) {
+            return "ADMIN";
+        } else {
+            return "ROLE_NOT_ASSIGNED";
+        }
     }
 
     private String getToken(Map<String, Object> extraClaims, UserDetails user) {

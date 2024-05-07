@@ -22,4 +22,12 @@ public class OpticoService {
         return opticoRepository.findByEmail(email);
     }
 
+    public void deleteOptico(Integer id) {
+        opticoRepository.deleteById(id);
+    }
+
+    public Optional<Optico> findOpticoById(Integer id) {
+        return opticoRepository.findById(id);
+    }
+
 }
