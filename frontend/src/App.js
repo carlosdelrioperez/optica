@@ -11,8 +11,10 @@ import { Perfil } from './components/perfil/Perfil';
 import { CambiarPefil } from './components/perfil/CambiarPefil';
 import { Footer } from './components/Footer';
 import { Producto } from './components/productos/Producto';
-import { PerfilOptico } from './components/perfil/PerfilOptico';
-import { OpticoNuevo } from './components/perfil/OpticoNuevo';
+import { PerfilOptico } from './components/perfilOptico/PerfilOptico';
+import { OpticoNuevo } from './components/perfilOptico/OpticoNuevo';
+import { CitasOptico } from './components/perfilOptico/CitasOptico';
+import { PedirCita } from './components/cita/PedirCita';
 
 
 function App() {
@@ -33,6 +35,8 @@ function App() {
         <Route path='/producto/:id' element={<Producto />} />
         <Route path='/perfilOptico' element={<PerfilOptico />} />
         <Route path='/opticoNuevo' element={<OpticoNuevo setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path='/citasOptico' element={<CitasOptico />} />
+        <Route path='/pedirCita' element={<PedirCita />} />
       </Routes>
       <br></br>
       <br></br>

@@ -31,6 +31,8 @@ public class SecurityConfig {
                                                 .requestMatchers("/auth/**").permitAll()
                                                 .requestMatchers("/api/productos/**").permitAll()
                                                 .requestMatchers("/api/opticos/**").hasAuthority("ADMIN")
+                                                .requestMatchers("/api/citas/**").permitAll()
+                                                .requestMatchers("/api/horas/**").permitAll()
                                                 .anyRequest().authenticated())
                                 .sessionManagement(sessionManager -> sessionManager
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))

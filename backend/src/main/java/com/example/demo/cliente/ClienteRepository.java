@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
     Optional<Cliente> findByEmail(String email);
 
+    Optional<Cliente> findById(Long id);
 }

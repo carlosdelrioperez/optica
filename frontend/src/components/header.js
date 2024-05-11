@@ -43,7 +43,13 @@ export const Header = ({ isLoggedIn, setIsLoggedIn }) => {
                         </Link>
                     </Navbar.Brand>
                     <Nav className="container-fluid">
-                        <Nav.Link style={{ color: 'white' }}>Pedir cita</Nav.Link>
+                        <Nav.Link style={{ color: 'white' }}>
+                            {isLoggedIn ? (
+                                <Link to="/pedirCita" style={{ color: 'white', textDecoration: 'none' }}>Pedir cita</Link>
+                            ) : (
+                                <Link to="/login" style={{ color: 'white', textDecoration: 'none' }}>Pedir cita</Link>
+                            )}
+                        </Nav.Link>
                         <Nav.Link style={{ color: 'white' }}>Sobre nosotros</Nav.Link>
                     </Nav>
                     <Nav>
