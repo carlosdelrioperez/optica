@@ -2,21 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { Link } from 'react-router-dom';
 import { IoIosArrowForward } from "react-icons/io";
+import { Card, Button } from 'react-bootstrap'; // Importa Button de react-bootstrap
 
 
 export const Perfil = () => {
     const [userInfo, setUserInfo] = useState(null);
+    const [proximaCita, setProximaCita] = useState(null);
 
     useEffect(() => {
-        // Obtener el token de sesión del localStorage
         const token = localStorage.getItem('token');
 
         if (token) {
-            // Decodificar el token para obtener el correo electrónico del usuario
             const decodedToken = jwtDecode(token);
             const userEmail = decodedToken.sub;
 
-            // Hacer la llamada al endpoint con el correo electrónico y el token
             fetch(`http://localhost:8080/api/clientes/findByEmail?email=${userEmail}`, {
                 method: 'GET',
                 headers: {
@@ -25,14 +24,41 @@ export const Perfil = () => {
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data); // Muestra los datos del usuario en la consola
-                    setUserInfo(data); // Establece los datos del usuario en el estado
+                    setUserInfo(data);
+
+                    fetch(`http://localhost:8080/api/citas/cliente/${data.id}/proximaCita`, {
+                        method: 'GET'
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            setProximaCita(data);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching user data:', error);
+                        });
                 })
                 .catch(error => {
                     console.error('Error fetching user data:', error);
                 });
         }
     }, []);
+
+    // Función para manejar el clic del botón
+    const handleButtonClick = () => {
+        fetch(`http://localhost:8080/api/citas/${proximaCita.id}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    throw new Error('Error al eliminar el optico');
+                }
+            })
+            .catch(error => {
+                console.error('Error al eliminar el optico:', error);
+            });
+    };
 
     return (
         <div style={{ display: 'flex', height: '100vh' }}>
@@ -55,7 +81,18 @@ export const Perfil = () => {
                 </div>
             </div>
             <div style={{ flex: '3', padding: '10px' }}>
-
+                {proximaCita && (
+                    <Card>
+                        <Card.Body>
+                            <Card.Title>
+                                <p style={{ textAlign: 'center' }}>Su próxima cita es el día {new Date(proximaCita.dia).toLocaleDateString('es-ES')} a las {proximaCita.hora.hora.split(':').slice(0, 2).join(':')}</p>
+                            </Card.Title>
+                        </Card.Body>
+                        <Button variant="danger" style={{ position: 'absolute', bottom: '10px', right: '10px' }} onClick={handleButtonClick}>
+                            Eliminar cita
+                        </Button>
+                    </Card>
+                )}
             </div>
         </div>
     );

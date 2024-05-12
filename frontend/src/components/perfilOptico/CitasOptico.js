@@ -36,6 +36,7 @@ export const CitasOptico = () => {
             })
                 .then(response => response.json())
                 .then(data => {
+                    console.log(data);
                     setCitas(data); // Establece los datos del usuario en el estado
                 })
                 .catch(error => {
@@ -46,7 +47,7 @@ export const CitasOptico = () => {
 
 
     return (
-        <div style={{ display: 'flex', height: '100vh' }}>
+        <div style={{ display: 'flex' }}>
             <div style={{ flex: '1', borderRight: '1px solid black', padding: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <br />
                 <img src={userInfo && userInfo.foto ? userInfo.foto : "/images/fotoPerfil.webp"} alt="Avatar" style={{ width: '300px', height: '300px', borderRadius: '50%', marginBottom: '10px' }} />
@@ -58,7 +59,7 @@ export const CitasOptico = () => {
                     <Link to="/perfilOptico" style={{ textDecoration: 'none', color: 'black' }}>
                         <h5>Equipo</h5>
                     </Link>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', height: '100%' }}> {/* Establecer height: '100%' */}
                         <IoIosArrowForward />
                         <h5>Citas</h5>
                     </div>
@@ -79,10 +80,15 @@ export const CitasOptico = () => {
                                     <Col>
                                         <Row className="no-gutters">
                                             <Col>
-                                                <p>Fecha: {cita.fecha}</p>
+                                                <p><b>Fecha:</b> {cita.dia}</p>
                                             </Col>
                                             <Col>
-                                                <p>Óptico: {cita.optico.nombre}</p>
+                                                <p><b>Óptico:</b> {cita.optico.nombre}</p>
+                                            </Col>
+                                        </Row>
+                                        <Row className="no-gutters">
+                                            <Col>
+                                                <p><b>Hora:</b> {cita.hora.hora}</p>
                                             </Col>
                                         </Row>
                                     </Col>

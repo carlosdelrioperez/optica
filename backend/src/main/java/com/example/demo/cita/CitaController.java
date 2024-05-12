@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -53,6 +54,18 @@ public class CitaController {
     public List<Optico> getOpticosLibres(@RequestParam LocalDate dia, @RequestParam LocalTime horaRequest) {
         Hora hora = horaRepository.findByHora(horaRequest);
         return citaService.findOpticosLibres(dia, hora);
+    }
+
+    // Eliminar una cita
+    @DeleteMapping("/citas/{id}")
+    public void deleteById(@PathVariable Integer id) {
+        citaService.deleteCitaById(id);
+    }
+
+    // Próxima cita de un cliente
+    @GetMapping("/citas/cliente/{id}/proximaCita")
+    public Cita getProximaCitaByClienteId(@PathVariable Integer id) {
+        return citaService.findProximCitaByClienteId(id);
     }
 
 }
