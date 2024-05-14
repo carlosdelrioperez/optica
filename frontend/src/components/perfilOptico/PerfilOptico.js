@@ -122,7 +122,11 @@ export const PerfilOptico = () => {
                                         <p>Fecha Nacimiento: {optico.fechaNacimiento}</p>
                                     </Col>
                                     <Col className="text-end">
-                                        <Button variant="danger" onClick={() => handleDelete(optico.id)}>Eliminar</Button>
+                                        <Link to={`/editarOptico/${optico.id}`}>
+                                            <Button variant='secondary'>Editar</Button>
+                                        </Link>
+                                        <Button variant="danger" onClick={() => handleDelete(optico.id)}
+                                            style={{ margin: '2px' }}>Eliminar</Button>
                                     </Col>
                                 </Row>
                             </Card.Body>

@@ -25,8 +25,6 @@ public class ClienteService {
     }
 
     public Cliente updateCliente(Cliente cliente) {
-        // Aquí podrías realizar alguna validación o lógica de negocio antes de
-        // actualizar el cliente
         return clienteRepository.save(cliente);
     }
 

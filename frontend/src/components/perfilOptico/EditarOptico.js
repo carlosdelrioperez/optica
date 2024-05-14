@@ -1,29 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { jwtDecode } from 'jwt-decode';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { IoIosArrowForward } from "react-icons/io";
 import { Container, Form, Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
 
-export const CambiarPefil = () => {
-    const [userInfo, setUserInfo] = useState(null);
+export const EditarOptico = () => {
+    const [userInfo, setUserInfo] = useState({});
     const [nombre, setNombre] = useState('');
     const [apellidos, setApellidos] = useState('');
     const [fechaNacimiento, setFechaNacimiento] = useState('');
-    const [telefono, setTelefono] = useState('');
+    const [telefono, setTelefono] = useState(0);
     const [domicilio, setDomicilio] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [foto, setFoto] = useState(null);
+    const [colegiado, setColegiado] = useState(0);
     const navigate = useNavigate();
-    const token = localStorage.getItem('token');
+    const [telefonoTouched, setTelefonoTouched] = useState(false);
+    const { id } = useParams();
 
     useEffect(() => {
-        if (token) {
-            const decodedToken = jwtDecode(token);
-            const userEmail = decodedToken.sub;
+        const token = localStorage.getItem('token');
 
-            fetch(`http://localhost:8080/api/clientes/findByEmail?email=${userEmail}`, {
+        if (token) {
+            fetch(`http://localhost:8080/api/opticos/${id}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -31,23 +30,33 @@ export const CambiarPefil = () => {
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
                     setUserInfo(data);
-                    setNombre(data.nombre);
-                    setApellidos(data.apellidos);
-                    setFechaNacimiento(data.fechaNacimiento);
-                    setTelefono(data.telefono);
-                    setDomicilio(data.domicilio);
-                    setEmail(data.email);
+                    setNombre(data.nombre || '');
+                    setApellidos(data.apellidos || '');
+                    setFechaNacimiento(data.fechaNacimiento || '');
+                    setTelefono(data.telefono || '');
+                    setDomicilio(data.domicilio || '');
+                    setEmail(data.email || '');
+                    setColegiado(data.colegiado || '');
                 })
                 .catch(error => {
                     console.error('Error fetching user data:', error);
                 });
         }
-    }, [token]);
+    }, [id]);
+
+    const validatePhoneNumber = (phoneNumber) => {
+        const phoneRegex = /^[0-9]{9}$/;
+        return phoneRegex.test(phoneNumber);
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        if (!validatePhoneNumber(telefono)) {
+            console.error('El número de teléfono no tiene el formato correcto (666666666).');
+            return;
+        }
 
         const data = {
             nombre,
@@ -57,28 +66,37 @@ export const CambiarPefil = () => {
             domicilio,
             email,
             password,
-            foto
+            foto,
+            colegiado
         };
 
-        try {
-            const response = await fetch(`http://localhost:8080/api/clientes?id=${userInfo.id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(data)
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            console.error('No se encontró un token en el localStorage.');
+            return;
+        }
+
+        fetch(`http://localhost:8080/api/opticos?id=${id}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json' // Establecer el tipo de contenido a JSON
+            },
+            body: JSON.stringify(data) // Convertir el objeto 'data' a JSON
+        })
+            .then(() => {
+                navigate('/perfilOptico');
+            })
+            .catch(error => {
+                console.error('Error al enviar los datos', error);
             });
 
-            if (!response.ok) {
-                throw new Error('Error al registrar usuario');
-            }
+    };
 
-            // Redirige al usuario a la página de inicio después de un registro exitoso
-            navigate('/perfil');
-        } catch (error) {
-            console.error('Error:', error.message);
-        }
+
+    const handleTelefonoBlur = () => {
+        setTelefonoTouched(true);
     };
 
     return (
@@ -91,19 +109,19 @@ export const CambiarPefil = () => {
                     <h3>{userInfo ? userInfo.nombre : "Nombre de Usuario"} {userInfo ? userInfo.apellidos : "Apellidos"}</h3>
                 </div>
                 <div style={{ marginTop: '100px' }}>
-                    <Link to="/perfil" style={{ textDecoration: 'none', color: 'black' }}>
-                        <h5 style={{ textAlign: 'center' }}>Mis revisiones</h5>
-                    </Link>
-                    <h5 style={{ textAlign: 'center' }}>Mis pedidos</h5>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <IoIosArrowForward style={{ marginRight: '5px' }} />
-                        <h5>Cambiar datos de perfil</h5>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <IoIosArrowForward />
+                        <h5>Equipo</h5>
                     </div>
+                    <h5 style={{ textAlign: 'center' }}>Citas</h5>
+                    <Link to="/cambiarPerfil" style={{ textDecoration: 'none', color: 'black' }}>
+                        <h5>Producto</h5>
+                    </Link>
                 </div>
             </div>
             <div style={{ flex: '3', padding: '10px' }}>
                 <Container>
-                    <h1 className="mt-5 mb-4">Cambio de datos</h1>
+                    <h1 className="mt-5 mb-4">Actualizar datos de óptico</h1>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group controlId="formBasicNombre">
                             <Form.Label>Nombre</Form.Label>
@@ -144,9 +162,16 @@ export const CambiarPefil = () => {
                                 placeholder="Ingresa tu teléfono"
                                 value={telefono}
                                 onChange={(e) => setTelefono(e.target.value)}
+                                onBlur={handleTelefonoBlur}
                                 required
                             />
+                            {telefonoTouched && !validatePhoneNumber(telefono) && (
+                                <Form.Text className="text-danger">
+                                    El número de teléfono no tiene un formato correcto
+                                </Form.Text>
+                            )}
                         </Form.Group>
+
 
                         <Form.Group controlId="formBasicDomicilio">
                             <Form.Label>Domicilio</Form.Label>
@@ -155,6 +180,17 @@ export const CambiarPefil = () => {
                                 placeholder="Ingresa tu domicilio"
                                 value={domicilio}
                                 onChange={(e) => setDomicilio(e.target.value)}
+                                required
+                            />
+                        </Form.Group>
+
+                        <Form.Group controlId="formBasicColegiado">
+                            <Form.Label>Número de Colegiado</Form.Label>
+                            <Form.Control
+                                type="number"
+                                placeholder="Ingresa tu número de colegiado"
+                                value={colegiado}
+                                onChange={(e) => setColegiado(parseInt(e.target.value || 0, 10))}
                                 required
                             />
                         </Form.Group>
@@ -185,8 +221,8 @@ export const CambiarPefil = () => {
                             <Form.Label>Foto de Perfil</Form.Label>
                             <Form.Control
                                 type="file"
-                                onChange={(e) => setFoto(e.target.files[0])} // Actualiza el estado con el archivo seleccionado
-                                accept="image/*" // Acepta solo archivos de imagen
+                                onChange={(e) => setFoto(e.target.files[0])}
+                                accept="image/*"
                             />
                         </Form.Group>
 

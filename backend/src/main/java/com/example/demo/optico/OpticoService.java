@@ -30,4 +30,8 @@ public class OpticoService {
         return opticoRepository.findById(id);
     }
 
+    public Optico updateOptico(Optico optico) {
+        return opticoRepository.save(optico);
+    }
+
 }

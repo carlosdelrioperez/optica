@@ -15,6 +15,7 @@ import { PerfilOptico } from './components/perfilOptico/PerfilOptico';
 import { OpticoNuevo } from './components/perfilOptico/OpticoNuevo';
 import { CitasOptico } from './components/perfilOptico/CitasOptico';
 import { PedirCita } from './components/cita/PedirCita';
+import { EditarOptico } from './components/perfilOptico/EditarOptico';
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
         <Route path='/opticoNuevo' element={<OpticoNuevo setIsLoggedIn={setIsLoggedIn} />} />
         <Route path='/citasOptico' element={<CitasOptico />} />
         <Route path='/pedirCita' element={<PedirCita />} />
+        <Route path='/editarOptico/:id' element={<EditarOptico />} />
       </Routes>
       <br></br>
       <br></br>
