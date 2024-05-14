@@ -20,11 +20,6 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(request));
     }
 
-    @PostMapping(value = "loginOptico")
-    public ResponseEntity<AuthResponse> loginOptico(@RequestBody LoginRequest request) {
-        return ResponseEntity.ok(authService.loginOptico(request));
-    }
-
     @PostMapping(value = "register")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
         return ResponseEntity.ok(authService.register(request));

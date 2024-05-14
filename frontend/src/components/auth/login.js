@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import LoginOptico from './LoginOptico'
 
 const Login = ({ setIsLoggedIn }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
@@ -35,6 +35,7 @@ const Login = ({ setIsLoggedIn }) => {
             navigate('/');
         } catch (error) {
             console.error('Error:', error.message);
+            setError('Usuario o contraseña incorrectos');
         }
     };
 
@@ -42,7 +43,8 @@ const Login = ({ setIsLoggedIn }) => {
         <Container>
             <Row>
                 <Col>
-                    <h1 className="mt-5 mb-4">Iniciar sesión como cliente</h1>
+                    <h1 className="mt-5 mb-4">Iniciar sesión</h1>
+                    {error && <Alert variant="danger">{error}</Alert>}
                     <Form onSubmit={handleSubmit}>
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>Correo electrónico</Form.Label>
@@ -69,9 +71,6 @@ const Login = ({ setIsLoggedIn }) => {
                             Iniciar sesión
                         </Button>
                     </Form>
-                </Col>
-                <Col>
-                    <LoginOptico setIsLoggedIn={setIsLoggedIn} />
                 </Col>
             </Row>
             <p className="mt-3">

@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,18 +31,22 @@ public class AuthService {
         public AuthResponse login(LoginRequest request) {
                 authenticationManager.authenticate(
                                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-                UserDetails cliente = clienteRepository.findByEmail(request.getEmail()).orElseThrow();
-                String token = jwtService.getToken(cliente);
-                return AuthResponse.builder()
-                                .token(token)
-                                .build();
-        }
 
-        public AuthResponse loginOptico(LoginRequest request) {
-                authenticationManager.authenticate(
-                                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-                UserDetails optico = opticoRepository.findByEmail(request.getEmail()).orElseThrow();
-                String token = jwtService.getToken(optico);
+                UserDetails userDetails = null;
+                UserDetails cliente = clienteRepository.findByEmail(request.getEmail()).orElse(null);
+                if (cliente != null) {
+                        userDetails = cliente;
+                } else {
+                        UserDetails optico = opticoRepository.findByEmail(request.getEmail()).orElse(null);
+                        if (optico != null) {
+                                userDetails = optico;
+                        } else {
+                                throw new UsernameNotFoundException("Usuario no encontrado");
+                        }
+                }
+
+                String token = jwtService.getToken(userDetails);
+
                 return AuthResponse.builder()
                                 .token(token)
                                 .build();
