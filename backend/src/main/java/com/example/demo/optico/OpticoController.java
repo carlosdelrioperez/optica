@@ -38,7 +38,7 @@ public class OpticoController {
 
     // Encontrar óptico por id
     @GetMapping("/opticos/{id}")
-    public Optional<Optico> getOpticoById(@PathVariable Integer id) {
+    public Optional<Optico> getOpticoById(@PathVariable Long id) {
         return opticoService.findOpticoById(id);
     }
 
@@ -50,7 +50,7 @@ public class OpticoController {
 
     // Actualizar un cliente
     @PutMapping("/opticos")
-    public ResponseEntity<Optico> actualizarOptico(@RequestParam("id") Integer id,
+    public ResponseEntity<Optico> actualizarOptico(@RequestParam("id") Long id,
             @RequestBody Map<String, Object> camposActualizados) {
         Optional<Optico> opticoExistente = opticoService.findOpticoById(id);
 
@@ -96,7 +96,7 @@ public class OpticoController {
 
     // Eliminar un óptico
     @DeleteMapping("/opticos/{id}")
-    public ResponseEntity<Void> eliminarCliente(@PathVariable("id") Integer id) {
+    public ResponseEntity<Void> eliminarCliente(@PathVariable("id") Long id) {
         Optional<Optico> opticoExistente = opticoService.findOpticoById(id);
 
         if (opticoExistente == null) {

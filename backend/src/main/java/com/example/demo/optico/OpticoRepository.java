@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface OpticoRepository extends JpaRepository<Optico, Integer> {
+public interface OpticoRepository extends JpaRepository<Optico, Long> {
     Optional<Optico> findByEmail(String email);
 
 }
