@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { Link } from 'react-router-dom';
 import { IoIosArrowForward } from "react-icons/io";
-import { Card, Button } from 'react-bootstrap'; // Importa Button de react-bootstrap
+import { Card, Button } from 'react-bootstrap';
 
 
 export const Perfil = () => {
@@ -43,7 +43,6 @@ export const Perfil = () => {
         }
     }, []);
 
-    // Función para manejar el clic del botón
     const handleButtonClick = () => {
         fetch(`http://localhost:8080/api/citas/${proximaCita.id}`, {
             method: 'DELETE'

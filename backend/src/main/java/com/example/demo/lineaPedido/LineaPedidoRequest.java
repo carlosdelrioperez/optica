@@ -1,5 +1,6 @@
 package com.example.demo.lineaPedido;
 
+import com.example.demo.color.Color;
 import com.example.demo.pedido.Pedido;
 import com.example.demo.producto.Producto;
 
@@ -16,5 +17,6 @@ public class LineaPedidoRequest {
 
     private Pedido pedido;
     private Producto producto;
+    private Color color;
     private Integer cantidad;
 }

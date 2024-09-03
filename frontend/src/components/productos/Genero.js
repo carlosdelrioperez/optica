@@ -44,8 +44,9 @@ function Genero() {
         fetch(`http://localhost:8080/api/productos/findByGenero?genero=${generoQuery}`)
             .then(response => response.json())
             .then(data => {
+                console.log(data);
                 setProductos(data);
-                setNoResults(data.length === 0); // Verificar si no se encontraron resultados
+                setNoResults(data.length === 0);
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
@@ -79,7 +80,7 @@ function Genero() {
         setSelectedColor(selectedColor);
 
         if (selectedColor) {
-            fetch(`http://localhost:8080/api/productos/findByColor?color=${selectedColor}`)
+            fetch(`http://localhost:8080/api/productos/findByColorAndGenero?color=${selectedColor}&genero=${generoQuery}`)
                 .then(response => response.json())
                 .then(data => {
                     setProductos(data);

@@ -71,9 +71,9 @@ public class ProductoController {
     }
 
     // Encontrar productos por color
-    @GetMapping("/productos/findByColor")
-    public List<Producto> getProductosByColor(@RequestParam String color) {
-        return productoService.findByColor(color);
+    @GetMapping("/productos/findByColorAndGenero")
+    public List<Producto> getProductosByColor(@RequestParam String color, @RequestParam Genero genero) {
+        return productoService.findByColor(color, genero);
     }
 
     // Encontrar colores de un producto

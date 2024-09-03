@@ -71,14 +71,15 @@ public class ProductoService {
     }
 
     // Encontrar productos por colores
-    public List<Producto> findByColor(String color) {
+    public List<Producto> findByColor(String color, Genero genero) {
         List<Long> productoIds = colorRepository.findProductoIdsByColor(color);
+        List<Producto> productos = productoRepository.findByGenero(genero);
         List<Producto> productosEncontrados = new ArrayList<>();
-        for (Long productoId : productoIds) {
-            Optional<Producto> productoOptional = productoRepository.findById(productoId);
-            productoOptional.ifPresent(productosEncontrados::add);
+        for (Producto producto : productos) {
+            if (productoIds.contains(producto.getId())) {
+                productosEncontrados.add(producto);
+            }
         }
-
         return productosEncontrados;
     }
 

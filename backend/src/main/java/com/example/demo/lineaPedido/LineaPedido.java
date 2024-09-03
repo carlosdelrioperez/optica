@@ -1,5 +1,6 @@
 package com.example.demo.lineaPedido;
 
+import com.example.demo.color.Color;
 import com.example.demo.pedido.Pedido;
 import com.example.demo.producto.Producto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -33,6 +34,9 @@ public class LineaPedido {
 
     @ManyToOne
     private Producto producto;
+
+    @ManyToOne
+    private Color color;
 
     private Integer cantidad;
 

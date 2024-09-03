@@ -25,7 +25,8 @@ public class LineaPedidoController {
     // Crear una línea de pedido
     @PostMapping("/lineasPedido")
     public LineaPedido createLineaPedido(@RequestBody LineaPedidoRequest request) {
-        return lineaPedidoService.create(request.getPedido(), request.getProducto(), request.getCantidad());
+        return lineaPedidoService.create(request.getPedido(), request.getProducto(), request.getColor(),
+                request.getCantidad());
     }
 
     // Encontrar las líneas de pedido asociadas a un pedido
@@ -37,7 +38,8 @@ public class LineaPedidoController {
     // Actualizar una línea de producto
     @PutMapping("/lineasPedido/{id}")
     public LineaPedido updateLineaPedido(@PathVariable Integer id, @RequestBody LineaPedidoRequest request) {
-        return lineaPedidoService.update(id, request.getPedido(), request.getProducto(), request.getCantidad());
+        return lineaPedidoService.update(id, request.getPedido(), request.getProducto(), request.getColor(),
+                request.getCantidad());
     }
 
     // Eliminar una línea de producto

@@ -9,17 +9,34 @@ export const Header = ({ isLoggedIn, setIsLoggedIn }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const navigate = useNavigate();
     const [userRole, setUserRole] = useState(null);
+    const [cartItemCount, setCartItemCount] = useState(0); // Nuevo estado para contar elementos en el carrito
 
     useEffect(() => {
-        // Verificar si el usuario está loggeado y obtener el rol del token almacenado en localStorage
-        if (isLoggedIn) {
-            const token = localStorage.getItem('token');
-            if (token) {
+        const token = localStorage.getItem('token');
+        if (token) {
+            try {
                 const decodedToken = jwtDecode(token);
                 setUserRole(decodedToken.role);
+                setIsLoggedIn(true);
+            } catch (error) {
+                console.error('Error decoding token:', error);
+                setIsLoggedIn(false);
+                setUserRole(null);
             }
+        } else {
+            setIsLoggedIn(false);
+            setUserRole(null);
         }
-    }, [isLoggedIn]);
+
+        // Obtener la cantidad de elementos en el carrito desde localStorage
+        const cart = localStorage.getItem('cart');
+        if (cart) {
+            const cartItems = JSON.parse(cart);
+            setCartItemCount(cartItems.length);
+        } else {
+            setCartItemCount(0);
+        }
+    }, [setIsLoggedIn]);
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -28,6 +45,7 @@ export const Header = ({ isLoggedIn, setIsLoggedIn }) => {
 
     const handleLogout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('cart');
         setIsLoggedIn(false);
         setUserRole(null);
         navigate('/');
@@ -67,8 +85,13 @@ export const Header = ({ isLoggedIn, setIsLoggedIn }) => {
                     <Nav>
                         {isLoggedIn ? (
                             <>
-                                <Nav.Link style={{ color: 'white' }}>
-                                    <BsCart3 style={{ width: "40px", height: "40px" }} />
+                                <Nav.Link style={{ color: 'white', display: 'flex', alignItems: 'center' }}>
+                                    <Link to="/cart" style={{ color: 'white', textDecoration: 'none' }}>
+                                        <BsCart3 style={{ width: "40px", height: "40px" }} />
+                                    </Link>
+                                    {cartItemCount > 0 && (
+                                        <p style={{ color: 'white', marginLeft: '5px', marginBottom: -20 }}>{cartItemCount}</p>
+                                    )}
                                 </Nav.Link>
                                 {userRole === 'USER' ? (
                                     <Link to="/perfil" style={{ color: 'white', textDecoration: 'none' }}>
@@ -88,7 +111,7 @@ export const Header = ({ isLoggedIn, setIsLoggedIn }) => {
                         )}
                     </Nav>
                 </div>
-            </Navbar >
-        </div >
+            </Navbar>
+        </div>
     )
 }

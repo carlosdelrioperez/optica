@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.demo.color.Color;
 import com.example.demo.pedido.Pedido;
 import com.example.demo.producto.Producto;
 
@@ -18,10 +19,11 @@ public class LineaPedidoService {
         this.lineaPedidoRepository = lineaPedidoRepository;
     }
 
-    public LineaPedido create(Pedido pedido, Producto producto, Integer cantidad) {
+    public LineaPedido create(Pedido pedido, Producto producto, Color color, Integer cantidad) {
         LineaPedido lp = LineaPedido.builder()
                 .pedido(pedido)
                 .producto(producto)
+                .color(color)
                 .cantidad(cantidad)
                 .build();
         LineaPedido nuevaLp = lineaPedidoRepository.save(lp);
@@ -32,11 +34,12 @@ public class LineaPedidoService {
         return lineaPedidoRepository.findLineaPedidoById(id);
     }
 
-    public LineaPedido update(Integer id, Pedido pedido, Producto producto, Integer cantidad) {
+    public LineaPedido update(Integer id, Pedido pedido, Producto producto, Color color, Integer cantidad) {
         LineaPedido lineaPedido = lineaPedidoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Linea de pedido no encontrada con ID: " + id));
         lineaPedido.setPedido(pedido);
         lineaPedido.setProducto(producto);
+        lineaPedido.setColor(color);
         lineaPedido.setCantidad(cantidad);
         return lineaPedidoRepository.save(lineaPedido);
     }

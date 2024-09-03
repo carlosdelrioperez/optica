@@ -33,6 +33,7 @@ const Login = ({ setIsLoggedIn }) => {
             localStorage.setItem('token', token);
             setIsLoggedIn(true);
             navigate('/');
+            window.location.reload();
         } catch (error) {
             console.error('Error:', error.message);
             setError('Usuario o contraseña incorrectos');
