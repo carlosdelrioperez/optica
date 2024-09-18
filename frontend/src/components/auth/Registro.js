@@ -10,7 +10,6 @@ const Register = ({ setIsLoggedIn }) => {
     const [domicilio, setDomicilio] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [foto, setFoto] = useState(null);
     const navigate = useNavigate();
     const [telefonoTouched, setTelefonoTouched] = useState(false);
 
@@ -34,8 +33,7 @@ const Register = ({ setIsLoggedIn }) => {
             telefono,
             domicilio,
             email,
-            password,
-            foto
+            password
         };
         console.log(data);
 
@@ -57,6 +55,7 @@ const Register = ({ setIsLoggedIn }) => {
             localStorage.setItem('token', token);
             setIsLoggedIn(true);
             navigate('/');
+            window.location.reload();
         } catch (error) {
             console.error('Error:', error.message);
         }
@@ -150,15 +149,6 @@ const Register = ({ setIsLoggedIn }) => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
-                    />
-                </Form.Group>
-
-                <Form.Group controlId="formBasicAvatar">
-                    <Form.Label>Foto de Perfil</Form.Label>
-                    <Form.Control
-                        type="file"
-                        onChange={(e) => setFoto(e.target.files[0])}
-                        accept="image/*"
                     />
                 </Form.Group>
 

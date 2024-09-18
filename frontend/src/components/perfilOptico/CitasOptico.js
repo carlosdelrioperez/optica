@@ -68,6 +68,9 @@ export const CitasOptico = () => {
                     <Link to="/pedidosOptico" style={{ textDecoration: 'none', color: 'black' }}>
                         <h5 style={{ marginLeft: '5px' }}>Pedidos</h5>
                     </Link>
+                    <Link to="/clientes" style={{ textDecoration: 'none', color: 'black' }}>
+                        <h5 style={{ marginLeft: '5px' }}>Clientes</h5>
+                    </Link>
                 </div>
             </div>
             <div style={{ flex: '3', padding: '10px' }}>

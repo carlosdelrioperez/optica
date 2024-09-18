@@ -67,6 +67,9 @@ export const PedidosOptico = () => {
                         <IoIosArrowForward />
                         <h5>Pedidos</h5>
                     </div>
+                    <Link to="/clientes" style={{ textDecoration: 'none', color: 'black' }}>
+                        <h5 style={{ marginLeft: '10px' }}>Clientes</h5>
+                    </Link>
                 </div>
             </div>
             <div style={{ flex: '3', padding: '10px' }}>

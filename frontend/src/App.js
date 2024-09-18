@@ -23,6 +23,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { MisPedidos } from './components/perfil/MisPedidos';
 import { Pedido } from './components/perfil/Pedido';
 import { PedidosOptico } from './components/perfilOptico/PedidosOptico';
+import { Clientes } from './components/perfilOptico/Clientes';
 
 
 const stripePromise = loadStripe('tu_clave_publica_de_stripe');
@@ -57,6 +58,7 @@ function App() {
         <Route path='/misPedidos' element={<MisPedidos />} />
         <Route path='/pedido/:id' element={<Pedido />} />
         <Route path='/pedidosOptico' element={<PedidosOptico />} />
+        <Route path='/clientes' element={<Clientes />} />
       </Routes>
       <br></br>
       <br></br>

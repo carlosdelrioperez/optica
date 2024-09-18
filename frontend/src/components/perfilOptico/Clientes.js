@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { Link } from 'react-router-dom';
 import { IoIosArrowForward } from "react-icons/io";
-import { Card, Row, Col, Button } from 'react-bootstrap';
+import { Card, Row, Col } from 'react-bootstrap';
 
-export const PerfilOptico = () => {
+export const Clientes = () => {
     const [userInfo, setUserInfo] = useState(null);
-    const [opticos, setOpticos] = useState(null);
+    const [clientes, setClientes] = useState(null);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -30,7 +30,7 @@ export const PerfilOptico = () => {
                 .catch(error => {
                     console.error('Error fetching user data:', error);
                 });
-            fetch(`http://localhost:8080/api/opticos`, {
+            fetch(`http://localhost:8080/api/clientes`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -38,7 +38,7 @@ export const PerfilOptico = () => {
             })
                 .then(response => response.json())
                 .then(data => {
-                    setOpticos(data); // Establece los datos del usuario en el estado
+                    setClientes(data); // Establece los datos del usuario en el estado
                 })
                 .catch(error => {
                     console.error('Error fetching user data:', error);
@@ -46,25 +46,6 @@ export const PerfilOptico = () => {
         }
     }, []);
 
-    const handleDelete = (id) => {
-        const token = localStorage.getItem('token');
-        fetch(`http://localhost:8080/api/opticos/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
-            .then(response => {
-                if (response.ok) {
-                    window.location.reload();
-                } else {
-                    throw new Error('Error al eliminar el optico');
-                }
-            })
-            .catch(error => {
-                console.error('Error al eliminar el optico:', error);
-            });
-    };
 
     return (
         <div style={{ display: 'flex', height: '100vh' }}>
@@ -76,10 +57,9 @@ export const PerfilOptico = () => {
                     <h3>{userInfo ? userInfo.nombre : "Nombre de Usuario"} {userInfo ? userInfo.apellidos : "Apellidos"}</h3>
                 </div>
                 <div style={{ marginTop: '100px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', marginLeft: '-5px' }}>
-                        <IoIosArrowForward />
-                        <h5>Equipo</h5>
-                    </div>
+                    <Link to="/perfilOptico" style={{ textDecoration: 'none', color: 'black' }}>
+                        <h5 style={{ marginLeft: '8px' }}>Equipo</h5>
+                    </Link>
                     <Link to="/citasOptico" style={{ textDecoration: 'none', color: 'black' }}>
                         <h5 style={{ textAlign: 'center' }}>Citas</h5>
                     </Link>
@@ -89,50 +69,31 @@ export const PerfilOptico = () => {
                     <Link to="/pedidosOptico" style={{ textDecoration: 'none', color: 'black' }}>
                         <h5 style={{ marginLeft: '10px' }}>Pedidos</h5>
                     </Link>
-                    <Link to="/clientes" style={{ textDecoration: 'none', color: 'black' }}>
-                        <h5 style={{ marginLeft: '10px' }}>Clientes</h5>
-                    </Link>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <IoIosArrowForward />
+                        <h5>Clientes</h5>
+                    </div>
                 </div>
             </div>
             <div style={{ flex: '3', padding: '10px' }}>
-                <Link to="/opticoNuevo">
-                    <Button variant="primary">Óptico nuevo</Button>
-                </Link>
-                <br />
-                <br />
-                {opticos && opticos.map((optico, index) => (
+                {clientes && clientes.map((cliente, index) => (
                     <div key={index}>
                         <Card style={{ marginBottom: '10px' }}>
                             <Card.Body>
                                 <Row>
                                     <Col>
-                                        <Card.Title>{optico.nombre} {optico.apellidos}</Card.Title>
+                                        <Card.Title>{cliente.nombre} {cliente.apellidos}</Card.Title>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col>
-                                        <p>Email: {optico.email}</p>
+                                        <p>Email: {cliente.email}</p>
                                     </Col>
                                     <Col>
-                                        <p>Teléfono: {optico.telefono}</p>
+                                        <p>Teléfono: {cliente.telefono}</p>
                                     </Col>
                                     <Col>
-                                        <p>Domicilio: {optico.domicilio}</p>
-                                    </Col>
-                                    <Col>
-                                        <p>Colegiado: {optico.colegiado}</p>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        <p>Fecha Nacimiento: {optico.fechaNacimiento}</p>
-                                    </Col>
-                                    <Col className="text-end">
-                                        <Link to={`/editarOptico/${optico.id}`}>
-                                            <Button variant='secondary'>Editar</Button>
-                                        </Link>
-                                        <Button variant="danger" onClick={() => handleDelete(optico.id)}
-                                            style={{ margin: '2px' }}>Eliminar</Button>
+                                        <p>Domicilio: {cliente.domicilio}</p>
                                     </Col>
                                 </Row>
                             </Card.Body>

@@ -14,7 +14,6 @@ export const CambiarPefil = () => {
     const [domicilio, setDomicilio] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [foto, setFoto] = useState(null);
     const navigate = useNavigate();
     const token = localStorage.getItem('token');
 
@@ -56,8 +55,7 @@ export const CambiarPefil = () => {
             telefono,
             domicilio,
             email,
-            password,
-            foto
+            password
         };
 
         try {
@@ -180,15 +178,6 @@ export const CambiarPefil = () => {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
-                            />
-                        </Form.Group>
-
-                        <Form.Group controlId="formBasicAvatar">
-                            <Form.Label>Foto de Perfil</Form.Label>
-                            <Form.Control
-                                type="file"
-                                onChange={(e) => setFoto(e.target.files[0])} // Actualiza el estado con el archivo seleccionado
-                                accept="image/*" // Acepta solo archivos de imagen
                             />
                         </Form.Group>
 
