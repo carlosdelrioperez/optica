@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const storedCart = localStorage.getItem('cart');
@@ -22,7 +24,6 @@ export const Cart = () => {
                 const data = await response.json();
                 const updatedItem = { ...item, producto: data };
                 updatedCart.push(updatedItem);
-                console.log(updatedCart);
             } catch (error) {
                 console.error('Error fetching product details:', error);
             }
@@ -31,23 +32,26 @@ export const Cart = () => {
     };
 
     const handleIncrement = (index) => {
-        const updatedCart = [...cartItems];
-        updatedCart[index].cantidad++;
-        setCartItems(updatedCart);
-        localStorage.setItem('cart', JSON.stringify(updatedCart));
+        const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+        storedCart[index].cantidad++;
+        setCartItems(storedCart);
+        localStorage.setItem('cart', JSON.stringify(storedCart));
+        window.location.reload();
     };
 
     const handleDecrement = (index) => {
-        const updatedCart = [...cartItems];
-        if (updatedCart[index].cantidad > 1) {
-            updatedCart[index].cantidad--;
-            setCartItems(updatedCart);
-            localStorage.setItem('cart', JSON.stringify(updatedCart));
+        const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+        if (storedCart[index].cantidad > 1) {
+            storedCart[index].cantidad--;
+            setCartItems(storedCart);
+            localStorage.setItem('cart', JSON.stringify(storedCart));
+            window.location.reload();
         }
     };
 
     const handleRemove = (index) => {
-        const updatedCart = cartItems.filter((_, i) => i !== index);
+        const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+        const updatedCart = storedCart.filter((_, i) => i !== index);
         setCartItems(updatedCart);
         localStorage.setItem('cart', JSON.stringify(updatedCart));
         window.location.reload();
@@ -57,6 +61,11 @@ export const Cart = () => {
         return cartItems.reduce((total, item) => {
             return total + item.producto.precio * item.cantidad;
         }, 0);
+    };
+
+    const handleCheckout = () => {
+        localStorage.setItem('cartTotal', calculateTotal());
+        navigate('/checkout');
     };
 
     return (
@@ -96,6 +105,9 @@ export const Cart = () => {
                     </div>
                     <div className="mt-4">
                         <h4>Total: {calculateTotal()}€</h4>
+                        <button className="btn btn-success ml-3" onClick={handleCheckout}>
+                            PAGAR
+                        </button>
                     </div>
                 </div>
             )}

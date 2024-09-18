@@ -94,7 +94,9 @@ export const CambiarPefil = () => {
                     <Link to="/perfil" style={{ textDecoration: 'none', color: 'black' }}>
                         <h5 style={{ textAlign: 'center' }}>Mis revisiones</h5>
                     </Link>
-                    <h5 style={{ textAlign: 'center' }}>Mis pedidos</h5>
+                    <Link to="/misPedidos" style={{ textDecoration: 'none', color: 'black' }}>
+                        <h5 style={{ textAlign: 'center' }}>Mis pedidos</h5>
+                    </Link>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <IoIosArrowForward style={{ marginRight: '5px' }} />
                         <h5>Cambiar datos de perfil</h5>

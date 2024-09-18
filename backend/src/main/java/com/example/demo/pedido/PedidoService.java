@@ -58,4 +58,12 @@ public class PedidoService {
         return precioTotal;
     }
 
+    public Pedido findPedidoById(Long id) {
+        return pedidoRepository.findPedidoById(id);
+    }
+
+    public List<Pedido> findAllPedidos() {
+        return pedidoRepository.findAll();
+    }
+
 }

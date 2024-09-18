@@ -117,6 +117,9 @@ export const EditarOptico = () => {
                     <Link to="/cambiarPerfil" style={{ textDecoration: 'none', color: 'black' }}>
                         <h5>Producto</h5>
                     </Link>
+                    <Link to="/pedidosOptico" style={{ textDecoration: 'none', color: 'black' }}>
+                        <h5 style={{ marginLeft: '10px' }}>Pedidos</h5>
+                    </Link>
                 </div>
             </div>
             <div style={{ flex: '3', padding: '10px' }}>

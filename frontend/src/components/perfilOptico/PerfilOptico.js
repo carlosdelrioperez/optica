@@ -76,7 +76,7 @@ export const PerfilOptico = () => {
                     <h3>{userInfo ? userInfo.nombre : "Nombre de Usuario"} {userInfo ? userInfo.apellidos : "Apellidos"}</h3>
                 </div>
                 <div style={{ marginTop: '100px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', marginLeft: '-5px' }}>
                         <IoIosArrowForward />
                         <h5>Equipo</h5>
                     </div>
@@ -84,7 +84,10 @@ export const PerfilOptico = () => {
                         <h5 style={{ textAlign: 'center' }}>Citas</h5>
                     </Link>
                     <Link to="/cambiarPerfil" style={{ textDecoration: 'none', color: 'black' }}>
-                        <h5>Producto</h5>
+                        <h5 style={{ marginLeft: '5px' }}>Producto</h5>
+                    </Link>
+                    <Link to="/pedidosOptico" style={{ textDecoration: 'none', color: 'black' }}>
+                        <h5 style={{ marginLeft: '10px' }}>Pedidos</h5>
                     </Link>
                 </div>
             </div>

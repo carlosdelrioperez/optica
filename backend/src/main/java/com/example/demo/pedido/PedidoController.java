@@ -35,6 +35,28 @@ public class PedidoController {
         return pedidoService.findPedidosByClienteId(id);
     }
 
+    // Encontrar todos los pedidos
+    @GetMapping("/pedidos")
+    public List<Pedido> getAllPedidos() {
+        return pedidoService.findAllPedidos();
+    }
+
+    // Encontrar pedido por su id
+    @GetMapping("/pedidos/{id}")
+    public Pedido getPedidoById(@PathVariable Long id) {
+        return pedidoService.findPedidoById(id);
+    }
+
+    // Encontrar pedidos de un cliente
+    @GetMapping("/pedidos/clienteUltimo/{id}")
+    public Pedido getUltimoPedidoByClienteId(@PathVariable Integer id) {
+        List<Pedido> pedidos = pedidoService.findPedidosByClienteId(id);
+        if (pedidos != null && !pedidos.isEmpty()) {
+            return pedidos.get(pedidos.size() - 1);
+        }
+        return null;
+    }
+
     // Actualizar un pedido
     @PutMapping("/pedidos/{id}")
     public Pedido update(@PathVariable Integer id, @RequestBody PedidoRequest request) {

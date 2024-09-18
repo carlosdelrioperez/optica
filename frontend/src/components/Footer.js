@@ -26,7 +26,7 @@ export const Footer = () => {
                 </div>
             </div>
             <div style={styles.bottomBar}>
-                <p style={styles.copy}>&copy; 2024 Centro Óptico. Todos los derechos reservados.</p>
+                <p style={styles.copy}>&copy; 2024 Centro Óptico Cabildo. Todos los derechos reservados.</p>
             </div>
         </footer>
     );

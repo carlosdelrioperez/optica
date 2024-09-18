@@ -16,4 +16,6 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
     @Query("SELECT p FROM Pedido p WHERE p.id = :id")
     Pedido findPedidoById(@Param("id") Integer id);
 
+    Pedido findPedidoById(Long id);
+
 }

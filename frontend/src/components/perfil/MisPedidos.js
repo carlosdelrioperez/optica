@@ -5,9 +5,10 @@ import { IoIosArrowForward } from "react-icons/io";
 import { Card, Row, Col, Button } from 'react-bootstrap';
 
 
-export const Perfil = () => {
+export const MisPedidos = () => {
     const [userInfo, setUserInfo] = useState(null);
     const [proximaCita, setProximaCita] = useState(null);
+    const [pedidos, setPedidos] = useState(null);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -32,6 +33,18 @@ export const Perfil = () => {
                         .then(response => response.json())
                         .then(data => {
                             setProximaCita(data);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching user data:', error);
+                        });
+                    fetch(`http://localhost:8080/api/pedidos/cliente/${data.id}`, {
+                        method: 'GET'
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data);
+
+                            setPedidos(data);
                         })
                         .catch(error => {
                             console.error('Error fetching user data:', error);
@@ -69,13 +82,13 @@ export const Perfil = () => {
                     <h3>{userInfo ? userInfo.nombre : "Nombre de Usuario"} {userInfo ? userInfo.apellidos : "Apellidos"}</h3>
                 </div>
                 <div style={{ marginTop: '100px' }}>
+                    <Link to="/perfil" style={{ textDecoration: 'none', color: 'black' }}>
+                        <h5 style={{ marginLeft: '40px' }}>Mis revisiones</h5>
+                    </Link>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '-20px' }}>
                         <IoIosArrowForward />
-                        <h5>Mis revisiones</h5>
-                    </div>
-                    <Link to="/misPedidos" style={{ textDecoration: 'none', color: 'black' }}>
                         <h5 style={{ textAlign: 'center' }}>Mis pedidos</h5>
-                    </Link>
+                    </div>
                     <Link to="/cambiarPefil" style={{ textDecoration: 'none', color: 'black' }}>
                         <h5>Cambiar datos de perfil</h5>
                     </Link>
@@ -94,6 +107,25 @@ export const Perfil = () => {
                         </Button>
                     </Card>
                 )}
+                {pedidos && pedidos.map((pedido, index) => (
+                    <div key={index}>
+                        <Link to={`/pedido/${pedido.id}`} style={{ textDecoration: 'none', color: 'black' }}>
+                            <Card style={{ marginBottom: '10px' }}>
+                                <Card.Body>
+                                    <Row className="no-gutters">
+                                        <Col>
+                                            <Row className="no-gutters">
+                                                <Col>
+                                                    <p><b>Id:</b> {pedido.id}</p>
+                                                </Col>
+                                            </Row>
+                                        </Col>
+                                    </Row>
+                                </Card.Body>
+                            </Card>
+                        </Link>
+                    </div>
+                ))}
             </div>
         </div>
     );

@@ -44,7 +44,6 @@ function Genero() {
         fetch(`http://localhost:8080/api/productos/findByGenero?genero=${generoQuery}`)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 setProductos(data);
                 setNoResults(data.length === 0);
             })

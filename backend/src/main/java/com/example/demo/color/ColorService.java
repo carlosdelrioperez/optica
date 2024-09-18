@@ -40,4 +40,8 @@ public class ColorService {
         return colorNames;
     }
 
+    public Integer findIdByNombreAndProducto(String nombre, Integer productoId) {
+        return colorRepository.findIdByNombreAndProducto(nombre, productoId);
+    }
+
 }

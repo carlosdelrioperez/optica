@@ -36,6 +36,7 @@ public class SecurityConfig {
                                                 .requestMatchers("/api/lineasPedido/**").permitAll()
                                                 .requestMatchers("/api/pedidos/**").permitAll()
                                                 .requestMatchers("/api/sendEmail").permitAll()
+                                                .requestMatchers("/stripe/**").permitAll()
                                                 .anyRequest().authenticated())
                                 .sessionManagement(sessionManager -> sessionManager
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))

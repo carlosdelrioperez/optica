@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
+
 
 export const Producto = () => {
     const [productInfo, setProductoInfo] = useState(null);
@@ -8,6 +10,8 @@ export const Producto = () => {
     const [colores, setColores] = useState(null);
     const [selectedColor, setSelectedColor] = useState('');
     const [userInfo, setUserInfo] = useState(null);
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         // Buscar producto
@@ -84,6 +88,29 @@ export const Producto = () => {
         window.location.reload();
     };
 
+    const handlePay = () => {
+        if (!selectedColor && colores && colores.length > 0) {
+            alert('Por favor selecciona un color antes de comprar.');
+            return;
+        }
+
+        let lineaPedido = {
+            cantidad: 1,
+            producto: {
+                id: productInfo.id
+            }
+        };
+
+        if (selectedColor) {
+            lineaPedido.producto.color = selectedColor;
+        }
+
+        const existingCart = JSON.parse(localStorage.getItem('cart')) || [];
+        existingCart.push(lineaPedido);
+        localStorage.setItem('cart', JSON.stringify(existingCart));
+        navigate('/checkout');
+    };
+
 
     if (!productInfo) {
         return (
@@ -129,7 +156,7 @@ export const Producto = () => {
                         </div>
                     </div>
                     <div style={{ marginTop: '20px' }}>
-                        <button type="button" className="btn btn-success btn-lg">Comprar ya</button>
+                        <button type="button" className="btn btn-success btn-lg" onClick={handlePay}>Comprar ya</button>
                         <button type="button" className="btn btn-secondary" style={{ marginLeft: '15px' }} onClick={handleAddToCart}>Añadir al carrito</button>
                     </div>
                 </div>
