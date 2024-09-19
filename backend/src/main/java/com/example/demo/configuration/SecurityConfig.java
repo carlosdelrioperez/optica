@@ -37,6 +37,7 @@ public class SecurityConfig {
                                                 .requestMatchers("/api/pedidos/**").permitAll()
                                                 .requestMatchers("/api/sendEmail").permitAll()
                                                 .requestMatchers("/stripe/**").permitAll()
+                                                .requestMatchers("/revision/**").permitAll()
                                                 .anyRequest().authenticated())
                                 .sessionManagement(sessionManager -> sessionManager
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))

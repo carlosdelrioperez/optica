@@ -22,6 +22,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { MisPedidos } from './components/perfil/MisPedidos';
 import { Pedido } from './components/perfil/Pedido';
+import { Revision } from './components/perfil/Revision';
 import { PedidosOptico } from './components/perfilOptico/PedidosOptico';
 import { Clientes } from './components/perfilOptico/Clientes';
 
@@ -59,6 +60,7 @@ function App() {
         <Route path='/pedido/:id' element={<Pedido />} />
         <Route path='/pedidosOptico' element={<PedidosOptico />} />
         <Route path='/clientes' element={<Clientes />} />
+        <Route path='/revision/:id' element={<Revision />} />
       </Routes>
       <br></br>
       <br></br>

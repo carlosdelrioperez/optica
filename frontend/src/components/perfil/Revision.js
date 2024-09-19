@@ -3,12 +3,15 @@ import { jwtDecode } from 'jwt-decode';
 import { Link } from 'react-router-dom';
 import { IoIosArrowForward } from "react-icons/io";
 import { Card, Row, Col, Button } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
 
 
-export const Perfil = () => {
+
+export const Revision = () => {
     const [userInfo, setUserInfo] = useState(null);
     const [proximaCita, setProximaCita] = useState(null);
-    const [revisiones, setRevisiones] = useState(null);
+    const [revision, setRevision] = useState(null);
+    const { id } = useParams();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -37,28 +40,25 @@ export const Perfil = () => {
                         .catch(error => {
                             console.error('Error fetching data:', error);
                         });
+                    fetch(`http://localhost:8080/api/revision/${id}`, {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            setRevision(data);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching data:', error);
+                        });
                 })
                 .catch(error => {
                     console.error('Error fetching user data:', error);
                 });
-
-            fetch(`http://localhost:8080/api/revision`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-
-                    setRevisiones(data);
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                });
         }
-    }, []);
+    }, [id]);
 
     const handleButtonClick = () => {
         fetch(`http://localhost:8080/api/citas/${proximaCita.id}`, {
@@ -111,25 +111,52 @@ export const Perfil = () => {
                         </Button>
                     </Card>
                 )}
-                {revisiones && revisiones.map((revision, index) => (
-                    <div key={index}>
-                        <Link to={`/revision/${revision.id}`} style={{ textDecoration: 'none', color: 'black' }}>
-                            <Card style={{ marginBottom: '10px' }}>
-                                <Card.Body>
-                                    <Row className="no-gutters">
-                                        <Col>
-                                            <Row className="no-gutters">
-                                                <Col>
-                                                    <p><b>Id:</b> {revision.id}</p>
-                                                </Col>
-                                            </Row>
-                                        </Col>
-                                    </Row>
-                                </Card.Body>
-                            </Card>
-                        </Link>
-                    </div>
-                ))}
+                {revision ? (
+                    <>
+                        <h3>{revision.cliente.nombre} {revision.cliente.apellidos}</h3>
+                        <h5>{revision.cliente.domicilio}</h5>
+                        <h5>{revision.cliente.telefono}</h5>
+                        <hr />
+                        <h5>Fecha: {revision.fecha}</h5>
+                        <br></br>
+                        <div style={{ marginLeft: "50px" }}>
+                            <Row>
+                                <Col>
+                                    <p><b>Gafa Izquierda:</b> {revision.gafaIzq}</p>
+                                </Col>
+                                <Col>
+                                    <p><b>Gafa Derecha:</b> {revision.gafaDer}</p>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <p><b>Máquina Izquierda:</b> {revision.maqIzq}</p>
+                                </Col>
+                                <Col>
+                                    <p><b>Máquina Derecha:</b> {revision.maqDer}</p>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <p><b>Cerca Izquierda:</b> {revision.cerIzq}</p>
+                                </Col>
+                                <Col>
+                                    <p><b>Cerca Derecha:</b> {revision.cerDer}</p>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <p><b>Lejos Izquierda:</b> {revision.lejIzq}</p>
+                                </Col>
+                                <Col>
+                                    <p><b>Lejos Derecha:</b> {revision.lejDer}</p>
+                                </Col>
+                            </Row>
+                        </div>
+                    </>
+                ) : (
+                    <p>Cargando información de la revisión...</p>
+                )}
             </div>
         </div>
     );
