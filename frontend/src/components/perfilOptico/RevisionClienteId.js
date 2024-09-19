@@ -3,10 +3,13 @@ import { jwtDecode } from 'jwt-decode';
 import { Link } from 'react-router-dom';
 import { IoIosArrowForward } from "react-icons/io";
 import { Card, Row, Col } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
 
-export const Clientes = () => {
+
+export const RevisionClienteId = () => {
     const [userInfo, setUserInfo] = useState(null);
-    const [clientes, setClientes] = useState(null);
+    const [revisiones, setRevisiones] = useState(null);
+    const { id } = useParams();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -30,7 +33,7 @@ export const Clientes = () => {
                 .catch(error => {
                     console.error('Error fetching user data:', error);
                 });
-            fetch(`http://localhost:8080/api/clientes`, {
+            fetch(`http://localhost:8080/api/revision/cliente/${id}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -38,13 +41,13 @@ export const Clientes = () => {
             })
                 .then(response => response.json())
                 .then(data => {
-                    setClientes(data); // Establece los datos del usuario en el estado
+                    setRevisiones(data); // Establece los datos del usuario en el estado
                 })
                 .catch(error => {
-                    console.error('Error fetching user data:', error);
+                    console.error('Error fetching data:', error);
                 });
         }
-    }, []);
+    }, [id]);
 
 
     return (
@@ -76,31 +79,23 @@ export const Clientes = () => {
                 </div>
             </div>
             <div style={{ flex: '3', padding: '10px' }}>
-                {clientes && clientes.map((cliente, index) => (
+                {revisiones && revisiones.map((revision, index) => (
                     <div key={index}>
-                        <Link to={`/revision/cliente/${cliente.id}`} style={{ textDecoration: 'none', color: 'black' }}>
+                        <Link to={`/revision/optico/${revision.id}`} style={{ textDecoration: 'none', color: 'black' }}>
                             <Card style={{ marginBottom: '10px' }}>
                                 <Card.Body>
-                                    <Row>
+                                    <Row className="no-gutters">
                                         <Col>
-                                            <Card.Title>{cliente.nombre} {cliente.apellidos}</Card.Title>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col>
-                                            <p>Email: {cliente.email}</p>
-                                        </Col>
-                                        <Col>
-                                            <p>Teléfono: {cliente.telefono}</p>
-                                        </Col>
-                                        <Col>
-                                            <p>Domicilio: {cliente.domicilio}</p>
+                                            <Row className="no-gutters">
+                                                <Col>
+                                                    <p><b>Id:</b> {revision.id}</p>
+                                                </Col>
+                                            </Row>
                                         </Col>
                                     </Row>
                                 </Card.Body>
                             </Card>
                         </Link>
-                        <br />
                     </div>
                 ))}
             </div>

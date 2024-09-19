@@ -43,6 +43,10 @@ public class RevisionService {
         return revisionRepository.findAll();
     }
 
+    public List<Revision> findRevisionesByClienteId(Integer id) {
+        return revisionRepository.findRevisionesByClienteId(id);
+    }
+
     public Optional<Revision> findRevisionById(Integer id) {
         return revisionRepository.findById(id);
     }

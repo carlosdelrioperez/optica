@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { Link } from 'react-router-dom';
 import { IoIosArrowForward } from "react-icons/io";
-import { Card, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
 
-export const Clientes = () => {
+
+export const RevisionOptico = () => {
     const [userInfo, setUserInfo] = useState(null);
-    const [clientes, setClientes] = useState(null);
+    const [revision, setRevision] = useState(null);
+    const { id } = useParams();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -30,7 +33,7 @@ export const Clientes = () => {
                 .catch(error => {
                     console.error('Error fetching user data:', error);
                 });
-            fetch(`http://localhost:8080/api/clientes`, {
+            fetch(`http://localhost:8080/api/revision/${id}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -38,13 +41,13 @@ export const Clientes = () => {
             })
                 .then(response => response.json())
                 .then(data => {
-                    setClientes(data); // Establece los datos del usuario en el estado
+                    setRevision(data);
                 })
                 .catch(error => {
-                    console.error('Error fetching user data:', error);
+                    console.error('Error fetching data:', error);
                 });
         }
-    }, []);
+    }, [id]);
 
 
     return (
@@ -76,33 +79,52 @@ export const Clientes = () => {
                 </div>
             </div>
             <div style={{ flex: '3', padding: '10px' }}>
-                {clientes && clientes.map((cliente, index) => (
-                    <div key={index}>
-                        <Link to={`/revision/cliente/${cliente.id}`} style={{ textDecoration: 'none', color: 'black' }}>
-                            <Card style={{ marginBottom: '10px' }}>
-                                <Card.Body>
-                                    <Row>
-                                        <Col>
-                                            <Card.Title>{cliente.nombre} {cliente.apellidos}</Card.Title>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col>
-                                            <p>Email: {cliente.email}</p>
-                                        </Col>
-                                        <Col>
-                                            <p>Teléfono: {cliente.telefono}</p>
-                                        </Col>
-                                        <Col>
-                                            <p>Domicilio: {cliente.domicilio}</p>
-                                        </Col>
-                                    </Row>
-                                </Card.Body>
-                            </Card>
-                        </Link>
-                        <br />
-                    </div>
-                ))}
+                {revision ? (
+                    <>
+                        <h3>{revision.cliente.nombre} {revision.cliente.apellidos}</h3>
+                        <h5>{revision.cliente.domicilio}</h5>
+                        <h5>{revision.cliente.telefono}</h5>
+                        <hr />
+                        <h5>Fecha: {revision.fecha}</h5>
+                        <br></br>
+                        <div style={{ marginLeft: "50px" }}>
+                            <Row>
+                                <Col>
+                                    <p><b>Gafa Izquierda:</b> {revision.gafaIzq}</p>
+                                </Col>
+                                <Col>
+                                    <p><b>Gafa Derecha:</b> {revision.gafaDer}</p>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <p><b>Máquina Izquierda:</b> {revision.maqIzq}</p>
+                                </Col>
+                                <Col>
+                                    <p><b>Máquina Derecha:</b> {revision.maqDer}</p>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <p><b>Cerca Izquierda:</b> {revision.cerIzq}</p>
+                                </Col>
+                                <Col>
+                                    <p><b>Cerca Derecha:</b> {revision.cerDer}</p>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <p><b>Lejos Izquierda:</b> {revision.lejIzq}</p>
+                                </Col>
+                                <Col>
+                                    <p><b>Lejos Derecha:</b> {revision.lejDer}</p>
+                                </Col>
+                            </Row>
+                        </div>
+                    </>
+                ) : (
+                    <p>Cargando información de la revisión...</p>
+                )}
             </div>
         </div>
     );

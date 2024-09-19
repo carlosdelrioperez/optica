@@ -6,7 +6,6 @@ import { Card, Row, Col, Button } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 
 
-
 export const Revision = () => {
     const [userInfo, setUserInfo] = useState(null);
     const [proximaCita, setProximaCita] = useState(null);
@@ -48,6 +47,8 @@ export const Revision = () => {
                     })
                         .then(response => response.json())
                         .then(data => {
+                            console.log(data);
+
                             setRevision(data);
                         })
                         .catch(error => {

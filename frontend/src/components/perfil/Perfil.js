@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { IoIosArrowForward } from "react-icons/io";
 import { Card, Row, Col, Button } from 'react-bootstrap';
 
-
 export const Perfil = () => {
     const [userInfo, setUserInfo] = useState(null);
     const [proximaCita, setProximaCita] = useState(null);
@@ -41,8 +40,13 @@ export const Perfil = () => {
                 .catch(error => {
                     console.error('Error fetching user data:', error);
                 });
+        }
+    }, []);
 
-            fetch(`http://localhost:8080/api/revision`, {
+    useEffect(() => {
+        if (userInfo && userInfo.id) { // Asegúrate de que userInfo no es null
+            const token = localStorage.getItem('token');
+            fetch(`http://localhost:8080/api/revision/cliente/${userInfo.id}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -51,14 +55,13 @@ export const Perfil = () => {
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
-
                     setRevisiones(data);
                 })
                 .catch(error => {
                     console.error('Error fetching data:', error);
                 });
         }
-    }, []);
+    }, [userInfo]); // Este useEffect se ejecutará cuando userInfo cambie
 
     const handleButtonClick = () => {
         fetch(`http://localhost:8080/api/citas/${proximaCita.id}`, {
@@ -68,11 +71,11 @@ export const Perfil = () => {
                 if (response.ok) {
                     window.location.reload();
                 } else {
-                    throw new Error('Error al eliminar el optico');
+                    throw new Error('Error al eliminar la cita');
                 }
             })
             .catch(error => {
-                console.error('Error al eliminar el optico:', error);
+                console.error('Error al eliminar la cita:', error);
             });
     };
 

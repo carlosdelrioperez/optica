@@ -44,6 +44,12 @@ public class RevisionController {
         return revisionService.findRevisionById(id);
     }
 
+    // Encontrar todas las revisiones de un cliente
+    @GetMapping("/revision/cliente/{id}")
+    public List<Revision> getRevisionesByClienteId(@PathVariable Integer id) {
+        return revisionService.findRevisionesByClienteId(id);
+    }
+
     // Actualizar una revision
     @PutMapping("/revision/{id}")
     public Revision update(@PathVariable Integer id, @RequestBody RevisionRequest request) {
