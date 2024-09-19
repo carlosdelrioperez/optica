@@ -42,7 +42,15 @@ public class EmailService {
         context.setVariable("fechaCita", fechaCita);
         context.setVariable("horaCita", horaCita);
         context.setVariable("nombreOptico", nombreOptico);
-        String contentHTML = templateEngine.process("email", context);
+        String contentHTML = templateEngine.process("emailCita", context);
+        sendMail(email, asunto, contentHTML);
+    }
+
+    public void sendCompraConfirmationEmail(String email, Integer id) throws MessagingException {
+        String asunto = "Confirmación de compra en Centro Óptico Cabildo";
+        Context context = new Context();
+        context.setVariable("id", id);
+        String contentHTML = templateEngine.process("emailCompra", context);
         sendMail(email, asunto, contentHTML);
     }
 }

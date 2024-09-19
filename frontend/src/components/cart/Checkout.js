@@ -100,9 +100,7 @@ export const Checkout = () => {
 
     const handleConfirm = async () => {
         try {
-            // await fetch(`http://localhost:8080/stripe/confirm/${paymentIntentId}`, {
-            //     method: "POST",
-            // });
+
 
             // Se crea el pedido
             fetch(`http://localhost:8080/api/pedidos`, {
@@ -129,11 +127,8 @@ export const Checkout = () => {
                     })
                         .then(response => response.json())
                         .then(data => {
-
                             setPedidoInfo(data.id);
-
                             const pedidoId = data.id;
-
                             let cartObject = [];
                             if (cart) {
                                 cartObject = JSON.parse(cart);
@@ -191,6 +186,20 @@ export const Checkout = () => {
                                         });
                                 }
                             }
+                            let body = {
+                                "id": `${paymentIntentId}`,
+                                "clienteId": userInfo.id,
+                                "pedidoId": pedidoId
+                            }
+                            console.log(body);
+
+                            fetch(`http://localhost:8080/stripe/confirm`, {
+                                method: "POST",
+                                body: JSON.stringify(body),
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            });
                         })
                         .catch(error => {
                             console.error('Error al obtener el último pedido:', error);
