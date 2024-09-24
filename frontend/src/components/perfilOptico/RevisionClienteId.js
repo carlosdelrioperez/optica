@@ -52,7 +52,16 @@ export const RevisionClienteId = () => {
 
     return (
         <div style={{ display: 'flex', height: '100vh' }}>
-            <div style={{ flex: '1', borderRight: '1px solid black', padding: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            {/* Columna izquierda*/}
+            <div style={{
+                borderRight: '1px solid black',
+                padding: '10px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                height: '100%',
+                width: '400px',
+            }}>
                 <br />
                 <img src={userInfo && userInfo.foto ? userInfo.foto : "/images/fotoPerfil.webp"} alt="Avatar" style={{ width: '300px', height: '300px', borderRadius: '50%', marginBottom: '10px' }} />
                 <br />
@@ -66,7 +75,7 @@ export const RevisionClienteId = () => {
                     <Link to="/citasOptico" style={{ textDecoration: 'none', color: 'black' }}>
                         <h5 style={{ textAlign: 'center' }}>Citas</h5>
                     </Link>
-                    <Link to="/cambiarPerfil" style={{ textDecoration: 'none', color: 'black' }}>
+                    <Link to="/stock" style={{ textDecoration: 'none', color: 'black' }}>
                         <h5 style={{ marginLeft: '5px' }}>Producto</h5>
                     </Link>
                     <Link to="/pedidosOptico" style={{ textDecoration: 'none', color: 'black' }}>
@@ -78,7 +87,12 @@ export const RevisionClienteId = () => {
                     </div>
                 </div>
             </div>
-            <div style={{ flex: '3', padding: '10px' }}>
+            {/* Columna derecha*/}
+            <div style={{
+                flex: '1',
+                padding: '10px',
+                overflowY: 'auto'
+            }}>
                 {revisiones && revisiones.map((revision, index) => (
                     <div key={index}>
                         <Link to={`/revision/optico/${revision.id}`} style={{ textDecoration: 'none', color: 'black' }}>

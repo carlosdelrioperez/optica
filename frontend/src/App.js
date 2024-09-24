@@ -27,6 +27,8 @@ import { PedidosOptico } from './components/perfilOptico/PedidosOptico';
 import { Clientes } from './components/perfilOptico/Clientes';
 import { RevisionClienteId } from './components/perfilOptico/RevisionClienteId';
 import { RevisionOptico } from './components/perfilOptico/RevisionOptico';
+import { Stock } from './components/perfilOptico/Stock';
+import { PedidoOptico } from './components/perfilOptico/PedidoOptico';
 
 
 const stripePromise = loadStripe('tu_clave_publica_de_stripe');
@@ -60,11 +62,13 @@ function App() {
         } />
         <Route path='/misPedidos' element={<MisPedidos />} />
         <Route path='/pedido/:id' element={<Pedido />} />
+        <Route path='/pedido/optico/:id' element={<PedidoOptico />} />
         <Route path='/pedidosOptico' element={<PedidosOptico />} />
         <Route path='/clientes' element={<Clientes />} />
         <Route path='/revision/:id' element={<Revision />} />
         <Route path='/revision/cliente/:id' element={<RevisionClienteId />} />
         <Route path='/revision/optico/:id' element={<RevisionOptico />} />
+        <Route path='/stock' element={<Stock />} />
       </Routes>
       <br></br>
       <br></br>

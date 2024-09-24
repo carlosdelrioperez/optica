@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { IoIosArrowForward } from "react-icons/io";
 
 
-export const Pedido = () => {
+export const PedidoOptico = () => {
 
     const [userInfo, setUserInfo] = useState(null);
     const [pedido, setPedido] = useState(null);
@@ -18,7 +18,7 @@ export const Pedido = () => {
             const decodedToken = jwtDecode(token);
             const userEmail = decodedToken.sub;
 
-            fetch(`http://localhost:8080/api/clientes/findByEmail?email=${userEmail}`, {
+            fetch(`http://localhost:8080/api/opticos/findByEmail?email=${userEmail}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -83,15 +83,21 @@ export const Pedido = () => {
                     <h3>{userInfo ? userInfo.nombre : "Nombre de Usuario"} {userInfo ? userInfo.apellidos : "Apellidos"}</h3>
                 </div>
                 <div style={{ marginTop: '100px' }}>
-                    <Link to="/perfil" style={{ textDecoration: 'none', color: 'black' }}>
-                        <h5>Mis revisiones</h5>
+                    <Link to="/perfilOptico" style={{ textDecoration: 'none', color: 'black' }}>
+                        <h5 style={{ textAlign: 'center' }}>Equipo</h5>
                     </Link>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Link to="/citasOptico" style={{ textDecoration: 'none', color: 'black' }}>
+                        <h5 style={{ textAlign: 'center' }}>Citas</h5>
+                    </Link>
+                    <Link to="/stock" style={{ textDecoration: 'none', color: 'black' }}>
+                        <h5 style={{ marginLeft: '5px' }}>Producto</h5>
+                    </Link>
+                    <div style={{ display: 'flex', alignItems: 'center', marginLeft: '-5px' }}>
                         <IoIosArrowForward />
-                        <h5 style={{ textAlign: 'center' }}>Mis pedidos</h5>
+                        <h5>Pedidos</h5>
                     </div>
-                    <Link to="/cambiarPefil" style={{ textDecoration: 'none', color: 'black' }}>
-                        <h5>Cambiar datos de perfil</h5>
+                    <Link to="/clientes" style={{ textDecoration: 'none', color: 'black' }}>
+                        <h5 style={{ marginLeft: '10px' }}>Clientes</h5>
                     </Link>
                 </div>
             </div>

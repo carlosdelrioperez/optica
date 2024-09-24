@@ -46,7 +46,16 @@ export const PedidosOptico = () => {
 
     return (
         <div style={{ display: 'flex', height: '100vh' }}>
-            <div style={{ flex: '1', borderRight: '1px solid black', padding: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            {/* Columna izquierda*/}
+            <div style={{
+                borderRight: '1px solid black',
+                padding: '10px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                height: '100%',
+                width: '400px',
+            }}>
                 <br />
                 <img src={userInfo && userInfo.foto ? userInfo.foto : "/images/fotoPerfil.webp"} alt="Avatar" style={{ width: '300px', height: '300px', borderRadius: '50%', marginBottom: '10px' }} />
                 <br />
@@ -60,7 +69,7 @@ export const PedidosOptico = () => {
                     <Link to="/citasOptico" style={{ textDecoration: 'none', color: 'black' }}>
                         <h5 style={{ textAlign: 'center' }}>Citas</h5>
                     </Link>
-                    <Link to="/cambiarPerfil" style={{ textDecoration: 'none', color: 'black' }}>
+                    <Link to="/stock" style={{ textDecoration: 'none', color: 'black' }}>
                         <h5 style={{ marginLeft: '5px' }}>Producto</h5>
                     </Link>
                     <div style={{ display: 'flex', alignItems: 'center', marginLeft: '-5px' }}>
@@ -72,10 +81,15 @@ export const PedidosOptico = () => {
                     </Link>
                 </div>
             </div>
-            <div style={{ flex: '3', padding: '10px' }}>
+            {/* Columna derecha*/}
+            <div style={{
+                flex: '1',
+                padding: '10px',
+                overflowY: 'auto'
+            }}>
                 {pedidos && pedidos.map((pedido, index) => (
                     <div key={index}>
-                        <Link to={`/pedido/${pedido.id}`} style={{ textDecoration: 'none', color: 'black' }}>
+                        <Link to={`/pedido/optico/${pedido.id}`} style={{ textDecoration: 'none', color: 'black' }}>
                             <Card style={{ marginBottom: '10px' }}>
                                 <Card.Body>
                                     <Row className="no-gutters">

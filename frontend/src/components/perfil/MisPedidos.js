@@ -74,7 +74,16 @@ export const MisPedidos = () => {
 
     return (
         <div style={{ display: 'flex', height: '100vh' }}>
-            <div style={{ flex: '1', borderRight: '1px solid black', padding: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            {/* Columna izquierda*/}
+            <div style={{
+                borderRight: '1px solid black',
+                padding: '10px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                height: '100%',
+                width: '400px',
+            }}>
                 <br />
                 <img src={userInfo && userInfo.foto ? userInfo.foto : "/images/fotoPerfil.webp"} alt="Avatar" style={{ width: '300px', height: '300px', borderRadius: '50%', marginBottom: '10px' }} />
                 <br />
@@ -94,7 +103,12 @@ export const MisPedidos = () => {
                     </Link>
                 </div>
             </div>
-            <div style={{ flex: '3', padding: '10px' }}>
+            {/* Columna derecha*/}
+            <div style={{
+                flex: '1',
+                padding: '10px',
+                overflowY: 'auto'
+            }}>
                 {proximaCita && (
                     <Card>
                         <Card.Body>
