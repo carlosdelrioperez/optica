@@ -65,10 +65,6 @@ public class AuthService {
                                 .foto(request.getFoto())
                                 .build();
 
-                Optional<Cliente> existingCliente = clienteRepository.findByEmail(request.getEmail());
-                if (existingCliente.isPresent()) {
-                        return AuthResponse.builder().build();
-                }
                 clienteRepository.save(cliente);
 
                 return AuthResponse.builder()

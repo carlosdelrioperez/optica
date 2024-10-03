@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { Link } from 'react-router-dom';
 import { IoIosArrowForward } from "react-icons/io";
-import { Card, Row, Col } from 'react-bootstrap';
+import { Card, Row, Col, FormControl, InputGroup } from 'react-bootstrap';
 
 export const PedidosOptico = () => {
     const [userInfo, setUserInfo] = useState(null);
-    const [pedidos, setPedidos] = useState(null);
+    const [pedidos, setPedidos] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filteredPedidos, setFilteredPedidos] = useState([]);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -30,12 +32,14 @@ export const PedidosOptico = () => {
                 .catch(error => {
                     console.error('Error fetching user data:', error);
                 });
+
             fetch(`http://localhost:8080/api/pedidos`, {
                 method: 'GET',
             })
                 .then(response => response.json())
                 .then(data => {
                     setPedidos(data);
+                    setFilteredPedidos(data); // Inicialmente, la lista filtrada es igual a la lista de pedidos completa
                 })
                 .catch(error => {
                     console.error('Error fetching user data:', error);
@@ -43,10 +47,21 @@ export const PedidosOptico = () => {
         }
     }, []);
 
+    // Filtrar los pedidos según el término de búsqueda
+    useEffect(() => {
+        if (searchTerm) {
+            const filtered = pedidos.filter(pedido =>
+                pedido.id.toString().includes(searchTerm) // Filtrar por ID (asegúrate de que el ID sea una cadena)
+            );
+            setFilteredPedidos(filtered);
+        } else {
+            setFilteredPedidos(pedidos); // Si no hay término de búsqueda, mostrar todos los pedidos
+        }
+    }, [searchTerm, pedidos]);
 
     return (
         <div style={{ display: 'flex', height: '100vh' }}>
-            {/* Columna izquierda*/}
+            {/* Columna izquierda */}
             <div style={{
                 borderRight: '1px solid black',
                 padding: '10px',
@@ -81,31 +96,48 @@ export const PedidosOptico = () => {
                     </Link>
                 </div>
             </div>
-            {/* Columna derecha*/}
+
+            {/* Columna derecha */}
             <div style={{
                 flex: '1',
                 padding: '10px',
                 overflowY: 'auto'
             }}>
-                {pedidos && pedidos.map((pedido, index) => (
-                    <div key={index}>
-                        <Link to={`/pedido/optico/${pedido.id}`} style={{ textDecoration: 'none', color: 'black' }}>
-                            <Card style={{ marginBottom: '10px' }}>
-                                <Card.Body>
-                                    <Row className="no-gutters">
-                                        <Col>
-                                            <Row className="no-gutters">
-                                                <Col>
-                                                    <p><b>Id:</b> {pedido.id}</p>
-                                                </Col>
-                                            </Row>
-                                        </Col>
-                                    </Row>
-                                </Card.Body>
-                            </Card>
-                        </Link>
-                    </div>
-                ))}
+                {/* Campo de búsqueda */}
+                <InputGroup className="mb-3" style={{ maxWidth: '400px' }}>
+                    <FormControl
+                        placeholder="Buscar por ID de pedido"
+                        aria-label="Buscar por ID de pedido"
+                        aria-describedby="basic-addon2"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </InputGroup>
+
+                {/* Mostrar los pedidos filtrados */}
+                {filteredPedidos.length > 0 ? (
+                    filteredPedidos.map((pedido, index) => (
+                        <div key={index}>
+                            <Link to={`/pedido/optico/${pedido.id}`} style={{ textDecoration: 'none', color: 'black' }}>
+                                <Card style={{ marginBottom: '10px' }}>
+                                    <Card.Body>
+                                        <Row className="no-gutters">
+                                            <Col>
+                                                <Row className="no-gutters">
+                                                    <Col>
+                                                        <p><b>Id:</b> {pedido.id}</p>
+                                                    </Col>
+                                                </Row>
+                                            </Col>
+                                        </Row>
+                                    </Card.Body>
+                                </Card>
+                            </Link>
+                        </div>
+                    ))
+                ) : (
+                    <p>No se encontraron pedidos con ese ID.</p>
+                )}
             </div>
         </div>
     );

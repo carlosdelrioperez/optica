@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Form, Button } from 'react-bootstrap';
+import { Container, Form, Button, Alert } from 'react-bootstrap'; // Importar Alert para mostrar mensajes de error
 import { useNavigate } from 'react-router-dom';
 
 const Register = ({ setIsLoggedIn }) => {
@@ -10,6 +10,7 @@ const Register = ({ setIsLoggedIn }) => {
     const [domicilio, setDomicilio] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState(''); // Estado para manejar el mensaje de error
     const navigate = useNavigate();
     const [telefonoTouched, setTelefonoTouched] = useState(false);
 
@@ -21,8 +22,11 @@ const Register = ({ setIsLoggedIn }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+        // Limpiar cualquier mensaje de error anterior
+        setErrorMessage('');
+
         if (!validatePhoneNumber(telefono)) {
-            console.error('El número de teléfono no tiene el formato correcto (666666666).');
+            setErrorMessage('El número de teléfono no tiene el formato correcto (666666666).');
             return;
         }
 
@@ -35,7 +39,6 @@ const Register = ({ setIsLoggedIn }) => {
             email,
             password
         };
-        console.log(data);
 
         try {
             const response = await fetch('http://localhost:8080/auth/register', {
@@ -46,6 +49,12 @@ const Register = ({ setIsLoggedIn }) => {
                 body: JSON.stringify(data)
             });
 
+            if (response.status === 409) {
+                // Si el estado es 409, el email ya está registrado
+                setErrorMessage(`El email ${email} ya está registrado. Por favor, intenta con otro.`);
+                return;
+            }
+
             if (!response.ok) {
                 throw new Error('Error al registrar usuario');
             }
@@ -54,9 +63,10 @@ const Register = ({ setIsLoggedIn }) => {
             const token = responseData.token;
             localStorage.setItem('token', token);
             setIsLoggedIn(true);
-            navigate('/');
-            window.location.reload();
+            // navigate('/');
+            // window.location.reload();
         } catch (error) {
+            setErrorMessage('Ocurrió un error al procesar el registro. Inténtalo de nuevo más tarde.');
             console.error('Error:', error.message);
         }
     };
@@ -68,6 +78,14 @@ const Register = ({ setIsLoggedIn }) => {
     return (
         <Container>
             <h1 className="mt-5 mb-4">Registro</h1>
+
+            {/* Mostrar mensaje de error si existe */}
+            {errorMessage && (
+                <Alert variant="danger" onClose={() => setErrorMessage('')} dismissible>
+                    {errorMessage}
+                </Alert>
+            )}
+
             <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formBasicNombre">
                     <Form.Label>Nombre</Form.Label>
@@ -108,16 +126,15 @@ const Register = ({ setIsLoggedIn }) => {
                         placeholder="Ingresa tu teléfono"
                         value={telefono}
                         onChange={(e) => setTelefono(e.target.value)}
-                        onBlur={handleTelefonoBlur} // Manejar el evento onBlur para rastrear la interacción del usuario
+                        onBlur={handleTelefonoBlur}
                         required
                     />
-                    {telefonoTouched && !validatePhoneNumber(telefono) && ( // Mostrar el mensaje de error solo si el usuario ha interactuado con el campo de teléfono
+                    {telefonoTouched && !validatePhoneNumber(telefono) && (
                         <Form.Text className="text-danger">
                             El número de teléfono no tiene un formato correcto
                         </Form.Text>
                     )}
                 </Form.Group>
-
 
                 <Form.Group controlId="formBasicDomicilio">
                     <Form.Label>Domicilio</Form.Label>
@@ -152,7 +169,7 @@ const Register = ({ setIsLoggedIn }) => {
                     />
                 </Form.Group>
 
-                <Button variant="primary" type="submit" style={{ marginTop: "1%" }}>
+                <Button variant="primary" type="submit" style={{ marginTop: '1%' }}>
                     Registrarse
                 </Button>
             </Form>

@@ -14,7 +14,6 @@ export const OpticoNuevo = ({ setIsLoggedIn }) => {
     const [domicilio, setDomicilio] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [foto, setFoto] = useState(null);
     const [colegiado, setColegiado] = useState(null);
     const navigate = useNavigate();
     const [telefonoTouched, setTelefonoTouched] = useState(false);
@@ -66,7 +65,6 @@ export const OpticoNuevo = ({ setIsLoggedIn }) => {
             domicilio,
             email,
             password,
-            foto,
             colegiado
         };
         console.log(data);
@@ -233,15 +231,6 @@ export const OpticoNuevo = ({ setIsLoggedIn }) => {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
-                            />
-                        </Form.Group>
-
-                        <Form.Group controlId="formBasicAvatar">
-                            <Form.Label>Foto de Perfil</Form.Label>
-                            <Form.Control
-                                type="file"
-                                onChange={(e) => setFoto(e.target.files[0])}
-                                accept="image/*"
                             />
                         </Form.Group>
 
