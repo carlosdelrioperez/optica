@@ -68,7 +68,6 @@ export const Header = ({ isLoggedIn, setIsLoggedIn }) => {
                                 <Link to="/login" style={{ color: 'white', textDecoration: 'none' }}>Pedir cita</Link>
                             )}
                         </Nav.Link>
-                        <Nav.Link style={{ color: 'white' }}>Sobre nosotros</Nav.Link>
                     </Nav>
                     <Nav>
                         <Form onSubmit={handleSearch}>

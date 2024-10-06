@@ -44,7 +44,7 @@ export const Perfil = () => {
     }, []);
 
     useEffect(() => {
-        if (userInfo && userInfo.id) { // Asegúrate de que userInfo no es null
+        if (userInfo && userInfo.id) {
             const token = localStorage.getItem('token');
             fetch(`http://localhost:8080/api/revision/cliente/${userInfo.id}`, {
                 method: 'GET',
@@ -110,12 +110,14 @@ export const Perfil = () => {
                     </Link>
                 </div>
             </div>
+
             {/* Columna derecha*/}
             <div style={{
                 flex: '1',
                 padding: '10px',
                 overflowY: 'auto'
             }}>
+                {/* Mostrar próxima cita */}
                 {proximaCita && (
                     <Card>
                         <Card.Body>
@@ -128,25 +130,34 @@ export const Perfil = () => {
                         </Button>
                     </Card>
                 )}
-                {revisiones && revisiones.map((revision, index) => (
-                    <div key={index}>
-                        <Link to={`/revision/${revision.id}`} style={{ textDecoration: 'none', color: 'black' }}>
-                            <Card style={{ marginBottom: '10px' }}>
-                                <Card.Body>
-                                    <Row className="no-gutters">
-                                        <Col>
-                                            <Row className="no-gutters">
-                                                <Col>
-                                                    <p><b>Id:</b> {revision.id}</p>
-                                                </Col>
-                                            </Row>
-                                        </Col>
-                                    </Row>
-                                </Card.Body>
-                            </Card>
-                        </Link>
+                <br></br>
+
+                {/* Mostrar revisiones */}
+                {revisiones && revisiones.length > 0 ? (
+                    revisiones.map((revision, index) => (
+                        <div key={index}>
+                            <Link to={`/revision/${revision.id}`} style={{ textDecoration: 'none', color: 'black' }}>
+                                <Card style={{ marginBottom: '10px' }}>
+                                    <Card.Body>
+                                        <Row className="no-gutters">
+                                            <Col>
+                                                <Row className="no-gutters">
+                                                    <Col>
+                                                        <p><b>Id:</b> {revision.id}</p>
+                                                    </Col>
+                                                </Row>
+                                            </Col>
+                                        </Row>
+                                    </Card.Body>
+                                </Card>
+                            </Link>
+                        </div>
+                    ))
+                ) : (
+                    <div style={{ textAlign: 'center', marginTop: '20px' }}>
+                        <h5>No hay revisiones registradas</h5>
                     </div>
-                ))}
+                )}
             </div>
         </div>
     );

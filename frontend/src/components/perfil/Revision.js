@@ -126,6 +126,7 @@ export const Revision = () => {
                         </Button>
                     </Card>
                 )}
+                <br></br>
                 {revision ? (
                     <>
                         <h3>{revision.cliente.nombre} {revision.cliente.apellidos}</h3>

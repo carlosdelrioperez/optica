@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { Link } from 'react-router-dom';
 import { IoIosArrowForward } from "react-icons/io";
-import { Card, Row, Col } from 'react-bootstrap';
+import { Card, Row, Col, FormControl, InputGroup } from 'react-bootstrap';
 
 export const Clientes = () => {
     const [userInfo, setUserInfo] = useState(null);
-    const [clientes, setClientes] = useState(null);
+    const [clientes, setClientes] = useState([]);
+    const [searchTerm, setSearchTerm] = useState(''); // Nuevo estado para manejar el término de búsqueda
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -30,6 +31,7 @@ export const Clientes = () => {
                 .catch(error => {
                     console.error('Error fetching user data:', error);
                 });
+
             fetch(`http://localhost:8080/api/clientes`, {
                 method: 'GET',
                 headers: {
@@ -38,14 +40,19 @@ export const Clientes = () => {
             })
                 .then(response => response.json())
                 .then(data => {
-                    setClientes(data); // Establece los datos del usuario en el estado
+                    setClientes(data); // Establece los datos de los clientes en el estado
                 })
                 .catch(error => {
-                    console.error('Error fetching user data:', error);
+                    console.error('Error fetching clients data:', error);
                 });
         }
     }, []);
 
+    // Filtrar clientes en función del término de búsqueda
+    const filteredClientes = clientes.filter(cliente =>
+        cliente.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        cliente.apellidos.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     return (
         <div style={{ display: 'flex', height: '100vh' }}>
@@ -84,39 +91,58 @@ export const Clientes = () => {
                     </div>
                 </div>
             </div>
+
             {/* Columna derecha*/}
             <div style={{
                 flex: '1',
                 padding: '10px',
                 overflowY: 'auto'
             }}>
-                {clientes && clientes.map((cliente, index) => (
-                    <div key={index}>
-                        <Link to={`/revision/cliente/${cliente.id}`} style={{ textDecoration: 'none', color: 'black' }}>
-                            <Card style={{ marginBottom: '10px' }}>
-                                <Card.Body>
-                                    <Row>
-                                        <Col>
-                                            <Card.Title>{cliente.nombre} {cliente.apellidos}</Card.Title>
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col>
-                                            <p>Email: {cliente.email}</p>
-                                        </Col>
-                                        <Col>
-                                            <p>Teléfono: {cliente.telefono}</p>
-                                        </Col>
-                                        <Col>
-                                            <p>Domicilio: {cliente.domicilio}</p>
-                                        </Col>
-                                    </Row>
-                                </Card.Body>
-                            </Card>
-                        </Link>
-                        <br />
+                {/* Campo de búsqueda */}
+                <InputGroup className="mb-3">
+                    <FormControl
+                        placeholder="Buscar por nombre o apellidos"
+                        aria-label="Buscar por nombre o apellidos"
+                        aria-describedby="basic-addon2"
+                        value={searchTerm}
+                        onChange={e => setSearchTerm(e.target.value)} // Actualizar el estado con el término de búsqueda
+                    />
+                </InputGroup>
+
+                {/* Mostrar lista de clientes */}
+                {filteredClientes.length > 0 ? (
+                    filteredClientes.map((cliente, index) => (
+                        <div key={index}>
+                            <Link to={`/revision/cliente/${cliente.id}`} style={{ textDecoration: 'none', color: 'black' }}>
+                                <Card style={{ marginBottom: '10px' }}>
+                                    <Card.Body>
+                                        <Row>
+                                            <Col>
+                                                <Card.Title>{cliente.nombre} {cliente.apellidos}</Card.Title>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col>
+                                                <p>Email: {cliente.email}</p>
+                                            </Col>
+                                            <Col>
+                                                <p>Teléfono: {cliente.telefono}</p>
+                                            </Col>
+                                            <Col>
+                                                <p>Domicilio: {cliente.domicilio}</p>
+                                            </Col>
+                                        </Row>
+                                    </Card.Body>
+                                </Card>
+                            </Link>
+                            <br />
+                        </div>
+                    ))
+                ) : (
+                    <div style={{ textAlign: 'center', marginTop: '20px' }}>
+                        <h5>No hay clientes que coincidan con la búsqueda</h5>
                     </div>
-                ))}
+                )}
             </div>
         </div>
     );

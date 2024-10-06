@@ -39,10 +39,23 @@ export const CitasOptico = () => {
                     setCitas(data);
                 })
                 .catch(error => {
-                    console.error('Error fetching user data:', error);
+                    console.error('Error fetching citas data:', error);
                 });
         }
     }, []);
+
+    // Función para filtrar citas anteriores al día actual
+    const filterUpcomingAppointments = (appointments) => {
+        const today = new Date();
+        return appointments.filter(cita => {
+            const citaDate = new Date(cita.dia);
+            // Solo mostrar las citas que son hoy o en el futuro
+            return citaDate >= today;
+        });
+    };
+
+    // Obtener la lista de citas filtradas
+    const upcomingCitas = citas ? filterUpcomingAppointments(citas) : [];
 
     return (
         <div style={{ display: 'flex', height: '100vh' }}>
@@ -88,34 +101,42 @@ export const CitasOptico = () => {
                 padding: '10px',
                 overflowY: 'auto'
             }}>
-                {citas && citas.map((cita, index) => (
-                    <div key={index}>
-                        <Card style={{ marginBottom: '10px' }}>
-                            <Card.Body>
-                                <Row className="no-gutters">
-                                    <Col>
-                                        <Card.Title>{cita.cliente.nombre} {cita.cliente.apellidos}</Card.Title>
-                                    </Col>
-                                    <Col>
-                                        <Row className="no-gutters">
-                                            <Col>
-                                                <p><b>Fecha:</b> {cita.dia}</p>
-                                            </Col>
-                                            <Col>
-                                                <p><b>Óptico:</b> {cita.optico.nombre}</p>
-                                            </Col>
-                                        </Row>
-                                        <Row className="no-gutters">
-                                            <Col>
-                                                <p><b>Hora:</b> {cita.hora.hora}</p>
-                                            </Col>
-                                        </Row>
-                                    </Col>
-                                </Row>
-                            </Card.Body>
-                        </Card>
+                {/* Comprobar si hay citas filtradas */}
+                {upcomingCitas.length > 0 ? (
+                    // Mostrar las citas pendientes
+                    upcomingCitas.map((cita, index) => (
+                        <div key={index}>
+                            <Card style={{ marginBottom: '10px' }}>
+                                <Card.Body>
+                                    <Row className="no-gutters">
+                                        <Col>
+                                            <Card.Title>{cita.cliente.nombre} {cita.cliente.apellidos}</Card.Title>
+                                        </Col>
+                                        <Col>
+                                            <Row className="no-gutters">
+                                                <Col>
+                                                    <p><b>Fecha:</b> {cita.dia}</p>
+                                                </Col>
+                                                <Col>
+                                                    <p><b>Óptico:</b> {cita.optico.nombre}</p>
+                                                </Col>
+                                            </Row>
+                                            <Row className="no-gutters">
+                                                <Col>
+                                                    <p><b>Hora:</b> {cita.hora.hora}</p>
+                                                </Col>
+                                            </Row>
+                                        </Col>
+                                    </Row>
+                                </Card.Body>
+                            </Card>
+                        </div>
+                    ))
+                ) : (
+                    <div style={{ textAlign: 'center', marginTop: '20px' }}>
+                        <h5>No hay citas pendientes</h5>
                     </div>
-                ))}
+                )}
             </div>
         </div>
     );

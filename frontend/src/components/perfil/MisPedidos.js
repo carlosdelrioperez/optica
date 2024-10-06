@@ -121,6 +121,7 @@ export const MisPedidos = () => {
                         </Button>
                     </Card>
                 )}
+                <br></br>
                 {pedidos && pedidos.map((pedido, index) => (
                     <div key={index}>
                         <Link to={`/pedido/${pedido.id}`} style={{ textDecoration: 'none', color: 'black' }}>
