@@ -29,6 +29,8 @@ import { RevisionClienteId } from './components/perfilOptico/RevisionClienteId';
 import { RevisionOptico } from './components/perfilOptico/RevisionOptico';
 import { Stock } from './components/perfilOptico/Stock';
 import { PedidoOptico } from './components/perfilOptico/PedidoOptico';
+import { NuevaRevision } from './components/perfilOptico/NuevaRevision';
+
 
 
 const stripePromise = loadStripe('tu_clave_publica_de_stripe');
@@ -69,6 +71,7 @@ function App() {
         <Route path='/revision/cliente/:id' element={<RevisionClienteId />} />
         <Route path='/revision/optico/:id' element={<RevisionOptico />} />
         <Route path='/stock' element={<Stock />} />
+        <Route path='/nuevaRevision/:id' element={<NuevaRevision />} />
       </Routes>
       <br></br>
       <br></br>

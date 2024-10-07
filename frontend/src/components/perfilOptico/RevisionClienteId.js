@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { Link } from 'react-router-dom';
 import { IoIosArrowForward } from "react-icons/io";
-import { Card, Row, Col } from 'react-bootstrap';
+import { Card, Row, Col, Button } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 
 
@@ -93,6 +93,11 @@ export const RevisionClienteId = () => {
                 padding: '10px',
                 overflowY: 'auto'
             }}>
+                <Link to={`/nuevaRevision/${id}`}>
+                    <Button variant="primary">Nueva revisión</Button>
+                </Link>
+                <br></br>
+                <br></br>
                 {revisiones && revisiones.map((revision, index) => (
                     <div key={index}>
                         <Link to={`/revision/optico/${revision.id}`} style={{ textDecoration: 'none', color: 'black' }}>
