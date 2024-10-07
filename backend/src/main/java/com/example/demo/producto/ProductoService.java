@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.color.ColorRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class ProductoService {
 
@@ -32,6 +34,13 @@ public class ProductoService {
                 .genero(genero)
                 .descripcion(descripcion)
                 .build();
+        return productoRepository.save(producto);
+    }
+
+    public Producto update(Long id, Integer stock) {
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Producto no encontrada con ID: " + id));
+        producto.setStock(stock - 1);
         return productoRepository.save(producto);
     }
 

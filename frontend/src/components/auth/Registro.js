@@ -63,8 +63,8 @@ const Register = ({ setIsLoggedIn }) => {
             const token = responseData.token;
             localStorage.setItem('token', token);
             setIsLoggedIn(true);
-            // navigate('/');
-            // window.location.reload();
+            navigate('/');
+            window.location.reload();
         } catch (error) {
             setErrorMessage('Ocurrió un error al procesar el registro. Inténtalo de nuevo más tarde.');
             console.error('Error:', error.message);

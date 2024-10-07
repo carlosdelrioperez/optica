@@ -84,9 +84,9 @@ export const Pedido = () => {
                 </div>
                 <div style={{ marginTop: '100px' }}>
                     <Link to="/perfil" style={{ textDecoration: 'none', color: 'black' }}>
-                        <h5>Mis revisiones</h5>
+                        <h5 style={{ marginLeft: '40px' }}>Mis revisiones</h5>
                     </Link>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '-20px' }}>
                         <IoIosArrowForward />
                         <h5 style={{ textAlign: 'center' }}>Mis pedidos</h5>
                     </div>

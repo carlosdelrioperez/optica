@@ -17,5 +17,6 @@ public class ProductoRequest {
     private String marca;
     private Genero genero;
     private String descripcion;
+    private Integer stock;
 
 }

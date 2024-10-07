@@ -100,8 +100,6 @@ export const Checkout = () => {
 
     const handleConfirm = async () => {
         try {
-
-
             // Se crea el pedido
             fetch(`http://localhost:8080/api/pedidos`, {
                 method: "POST",
@@ -163,7 +161,7 @@ export const Checkout = () => {
                                             };
 
                                             // Añadir línea al pedido
-                                            fetch(`http://localhost:8080/api/lineasPedido`, {
+                                            fetch(`http://localhost:8080/api/lineasPedido?id=${linea.producto.id}`, {
                                                 method: "POST",
                                                 headers: {
                                                     'Authorization': `Bearer ${token}`,
