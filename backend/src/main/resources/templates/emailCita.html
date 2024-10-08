@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <title>Confirmación de cita en Centro Óptico Cabildo</title>
+</head>
+
+<body>
+    <h1 style="color: #007bff;">¡Hola!</h1>
+    <p style="color: #000;">Estamos encantados de confirmar su cita en Centro Óptico Cabildo.</p>
+    <p style="color: #000;">Fecha de la cita: <strong th:text="${fechaCita}"></strong></p>
+    <p style="color: #000;">Hora de la cita: <strong th:text="${horaCita}"></strong></p>
+    <p style="color: #000;">Óptico asignado: <strong th:text="${nombreOptico}"></strong></p>
+    <p style="color: #000;">Por favor, no dudes en contactarnos si tiene alguna pregunta.</p>
+    <p style="color: #000;">¡Esperamos verle pronto!</p>
+    <hr>
+    <img src="cid:logoImage" alt="Logo Centro Óptico Cabildo" style="max-width: 200px;">
+</body>
+
+</html>
