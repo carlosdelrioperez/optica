@@ -134,7 +134,7 @@ export const Producto = () => {
         <div className="container-fluid">
             <div className="row">
                 <div className="col-md-8">
-                    <img src={productInfo.foto} alt="Imagen" style={{ maxWidth: '100%', height: 'auto', marginTop: '5%', marginLeft: '20%' }} />
+                    <img src={productInfo.foto} alt="Imagen" style={{ maxWidth: '70%', maxHeight: '70%', marginTop: '5%', marginLeft: '20%' }} />
                 </div>
                 <div className="col-md-4" style={{ marginTop: '5%' }}>
                     <h1>{productInfo.nombre}</h1>
