@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.producto.Producto;
 import com.example.demo.producto.ProductoService;
 
 import java.util.List;
@@ -32,7 +31,7 @@ public class LineaPedidoController {
     @PostMapping("/lineasPedido")
     public LineaPedido createLineaPedido(@RequestBody LineaPedidoRequest request, @RequestParam Long id) {
         Integer stock = productoService.findById(id).get().getStock();
-        Producto productoActualizado = productoService.update(id, stock);
+        productoService.update(id, stock, request.getCantidad());
         return lineaPedidoService.create(request.getPedido(), request.getProducto(), request.getColor(),
                 request.getCantidad());
     }

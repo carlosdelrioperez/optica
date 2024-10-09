@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.color.ColorService;
 
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
@@ -36,10 +35,11 @@ public class ProductoController {
     }
 
     // Modificar stock
-    @PutMapping("/productos/{id}")
-    public Producto updateProducto(@RequestBody ProductoRequest request, @PathVariable Long id) {
-        return productoService.update(id, request.getStock());
-    }
+    // @PutMapping("/productos/{id}")
+    // public Producto updateProducto(@RequestBody ProductoRequest request,
+    // @PathVariable Long id) {
+    // return productoService.update(id, request.getStock());
+    // }
 
     // Encontrar todos los productos
     @GetMapping("/productos")

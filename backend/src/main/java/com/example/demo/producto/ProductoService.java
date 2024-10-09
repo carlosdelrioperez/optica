@@ -37,10 +37,10 @@ public class ProductoService {
         return productoRepository.save(producto);
     }
 
-    public Producto update(Long id, Integer stock) {
+    public Producto update(Long id, Integer stock, Integer cantidad) {
         Producto producto = productoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Producto no encontrada con ID: " + id));
-        producto.setStock(stock - 1);
+        producto.setStock(stock - cantidad);
         return productoRepository.save(producto);
     }
 
