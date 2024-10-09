@@ -2,9 +2,25 @@ import React from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Carrusel() {
+    const navigate = useNavigate();
+
+
+    const isAuthenticated = () => {
+        return !!localStorage.getItem('token');
+    };
+
+
+    const handleCitaClick = () => {
+        if (isAuthenticated()) {
+            navigate('/pedirCita');
+        } else {
+            navigate('/login');
+        }
+    };
+
     return (
         <div style={{ width: '35%', margin: '0 auto', paddingTop: '20px' }}>
             <Carousel>
@@ -17,7 +33,7 @@ function Carrusel() {
                     <Carousel.Caption>
                         <h3>Descubre nuestro catálogo</h3>
                         <a href="#catalogo">
-                            <Button variant="primary">  Ver catálogo</Button>
+                            <Button variant="primary">Ver catálogo</Button>
                         </a>
                     </Carousel.Caption>
                 </Carousel.Item>
@@ -43,9 +59,9 @@ function Carrusel() {
                     />
                     <Carousel.Caption>
                         <h3>Cuida tu vista, pide cita</h3>
-                        <Link to={"/pedirCita"}>
-                            <Button variant="primary">Pedir cita</Button>
-                        </Link>
+                        <Button variant="primary" onClick={handleCitaClick}>
+                            Pedir cita
+                        </Button>
                     </Carousel.Caption>
                 </Carousel.Item>
             </Carousel>
